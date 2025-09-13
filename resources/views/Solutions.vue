@@ -1,7 +1,9 @@
 <template>
-    <div></div>
+    <headernav></headernav>
 </template>
 
-<script setup></script>
+<script setup>
+import headernav from '../components/headernav.vue';
+</script>
 
 <style scoped></style>
