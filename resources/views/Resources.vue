@@ -1,5 +1,4 @@
 <template>
-    <headernav></headernav>
 </template>
 
 <script setup>
