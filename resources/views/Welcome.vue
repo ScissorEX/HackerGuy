@@ -1,6 +1,5 @@
 <template>
     <headernav></headernav>
-    <router-view name="Home"></router-view>
     <router-view></router-view>
 </template>
 
@@ -8,5 +7,4 @@
 import headernav from '../components/headernav.vue';
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

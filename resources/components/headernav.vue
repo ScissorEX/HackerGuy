@@ -1,22 +1,21 @@
 <template>
     <div id="headernavmain">
         <div id="headleftside">
-
             <router-link to="/" id="chimprankrouter">
-                <video height="200" id="chimprank" autoplay loop>
-                    <source src="../components/images/chimprank.mkv" type="video/mp4" />
-                </video>
-        </router-link>
+                <p id="chimprank">ChimpRank</p>
+                <img v-show="interval" src="./images/icons/monkey.svg" alt="icon" id="chimpranklogo">
+            </router-link>
 
             <div id="headnavlink">
-                <router-link to="/products" id="headlink">Products</router-link>
+                <router-link to="/products" id="headlink" @mouseenter="preloadproducts">Products</router-link>
 
-                <router-link to="/solutions" id="headlink">Solutions</router-link>
+                <router-link to="/solutions" id="headlink" @mouseenter="preloadsolutions">Solutions</router-link>
 
-                <router-link to="/resources" id="headlink">Resources</router-link>
+                <router-link to="/resources" id="headlink" @mouseenter="preloadresources">Resources</router-link>
 
-                <router-link to="/pricing" id="headlink">Pricing</router-link>
+                <router-link to="/pricing" id="headlink" @mouseenter="preloadpricing">Pricing</router-link>
             </div>
+            
         </div>
         <div>
             for dev=>
@@ -27,6 +26,27 @@
 </template>
 
 <script setup>
+const preloadproducts = () => {
+    import('../views/Products.vue')
+}
+const preloadsolutions = () => {
+    import('../views/Solutions.vue')
+}
+const preloadresources = () => {
+    import('../views/Resources.vue')
+}
+const preloadpricing = () => {
+    import('../views/Pricing.vue')
+}
+
+import { ref, onUnmounted } from 'vue';
+
+const show = ref();
+
+const interval = setInterval(() => {
+  show.value = !show;
+}, 500);
+
 </script>
 
 <style scoped>
@@ -56,7 +76,8 @@
 }
 #headlink,
 #signupbutton,
-#demobutton {
+#demobutton,
+#chimprankrouter {
     text-decoration: none;
 }
 #headlink {
@@ -77,14 +98,20 @@
     background-color: #1f1f1f;
     color: #d8d8d8;
 }
-#chimprankrouter{
-    object-fit:cover;
+#chimprankrouter {
     width: 200px;
     height: 100px;
-    overflow: hidden;
+    display: flex;
 }
-#chimprank{
-    margin-left: -80px;
-    margin-top: -35px;
+#chimprank {
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 40px;
+}
+#chimpranklogo {
+    position: relative;
+    right: 7px;
+    height: 50px;
+    margin-top: 20px;
 }
 </style>

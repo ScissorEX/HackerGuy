@@ -1,8 +1,5 @@
-<template>
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-</template>
+<template>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style scoped></style>
