@@ -3,19 +3,26 @@
         <div id="headleftside">
             <router-link to="/" id="chimprankrouter">
                 <p id="chimprank">ChimpRank</p>
-                <img v-show="interval" src="./images/icons/monkey.svg" alt="icon" id="chimpranklogo">
+                <img v-show="show" src="./images/monkey.svg" alt="icon" id="chimpranklogo" />
             </router-link>
 
             <div id="headnavlink">
-                <router-link to="/products" id="headlink" @mouseenter="preloadproducts">Products</router-link>
+                <router-link to="/products" id="headlink" @mouseenter="preloadproducts"
+                    >Products</router-link
+                >
 
-                <router-link to="/solutions" id="headlink" @mouseenter="preloadsolutions">Solutions</router-link>
+                <router-link to="/solutions" id="headlink" @mouseenter="preloadsolutions"
+                    >Solutions</router-link
+                >
 
-                <router-link to="/resources" id="headlink" @mouseenter="preloadresources">Resources</router-link>
+                <router-link to="/resources" id="headlink" @mouseenter="preloadresources"
+                    >Resources</router-link
+                >
 
-                <router-link to="/pricing" id="headlink" @mouseenter="preloadpricing">Pricing</router-link>
+                <router-link to="/pricing" id="headlink" @mouseenter="preloadpricing"
+                    >Pricing</router-link
+                >
             </div>
-            
         </div>
         <div>
             for dev=>
@@ -27,26 +34,23 @@
 
 <script setup>
 const preloadproducts = () => {
-    import('../views/Products.vue')
-}
+    import('../views/Products.vue');
+};
 const preloadsolutions = () => {
-    import('../views/Solutions.vue')
-}
+    import('../views/Solutions.vue');
+};
 const preloadresources = () => {
-    import('../views/Resources.vue')
-}
+    import('../views/Resources.vue');
+};
 const preloadpricing = () => {
-    import('../views/Pricing.vue')
-}
+    import('../views/Pricing.vue');
+};
 
-import { ref, onUnmounted } from 'vue';
-
-const show = ref();
-
-const interval = setInterval(() => {
-  show.value = !show;
-}, 500);
-
+import { onMounted, ref } from 'vue';
+let show = ref(true);
+/*setInterval(() => {
+        show.value = !show.value;
+    }, 530);*/
 </script>
 
 <style scoped>

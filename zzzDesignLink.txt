@@ -1,4 +1,1 @@
 https://dribbble.com/shots/26414267-B2B-SaaS-Landing-Page-Design-for-HackerRank
-
-background-color: #f8f8f8;
-    color: #222;
