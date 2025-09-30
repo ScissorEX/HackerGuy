@@ -1,11 +1,31 @@
 <template>
     <div id="homediv1">
         <div id="humanchimpdiv">
-            <h1 style="background-image: radial-gradient(circle, #484848, #2b2b2b);">The future</h1>
-            <h1 style="background-image: radial-gradient(circle, #4c4c4c, #1f1f1f);">of development</h1>
-            <h1 style="background-image: radial-gradient(circle, #ffffff 40%, #5b5b5b);">is <img src="../components/images/icons/fingerprint-svgrepo-com.min.svg" style="width: 75px; transform: rotate(10deg);">human + <img src="../components/images/icons/monkey-svgrepo-com.min.min.svg" style="width: 75px;">Chimp</h1>
-            <p> theres a text here lol</p>
-            <a>Join The Community</a>
+            <h1 style="background-image: radial-gradient(circle, #484848, #2b2b2b 50%)">
+                The future
+            </h1>
+            <h1 style="background-image: radial-gradient(circle, #4c4c4c, #1f1f1f 70%)">
+                of development
+            </h1>
+            <h1 style="background-image: radial-gradient(circle, #ffffff 50%, #5b5b5b)">
+                is
+                <img
+                    src="../components/images/icons/fingerprint-svgrepo-com.min.svg"
+                    style="width: 75px; transform: rotate(10deg)" />human +
+                <img
+                    src="../components/images/icons/monkey-svgrepo-com.min.min.svg"
+                    style="width: 75px" />Chimp
+            </h1>
+            <p>theres a text here lol</p>
+            <div>
+                <router-link
+                    to="/community"
+                    id="communityjoin"
+                    class="button"
+                    @mouseenter="preloadcommunity">
+                    Join The Community</router-link
+                >
+            </div>
         </div>
     </div>
     <div id="homediv2" class="whitebgc">
@@ -17,7 +37,7 @@
             </p>
         </div>
         <div id="twocardatonce" class="blackbgc">
-            <div id="fordevcard" >
+            <div id="fordevcard">
                 <div>
                     <h3>For developers</h3>
                     <p>ChimpRank helps you hone your primal skills and become Ape-Ready</p>
@@ -45,14 +65,17 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+const preloadcommunity = () => {
+    import('./Community.vue');
+};
+</script>
 
 <style scoped>
 #homediv1 {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 150px;
+    margin: 150px 0;
 }
 #homediv2 {
     background-color: #fff;
@@ -61,14 +84,17 @@
 }
 h1 {
     font-weight: 500;
-    font-size: 80px;
+    font-size: 100px;
+    word-spacing: -5px;
+    letter-spacing: -5px;
     margin: -30px;
     color: transparent;
     background-clip: text;
 }
 #humanchimpdiv {
+    margin-top: 200px;
     justify-items: center;
-    margin-top: 100px;
+    height: 600px;
 }
 #adventurediv {
     justify-items: center;
@@ -85,7 +111,8 @@ h2 {
     display: flex;
     justify-content: center;
 }
-#fordevcard,#forbusinesscard {
+#fordevcard,
+#forbusinesscard {
     background: #050b07;
     background: linear-gradient(45deg, #050b07, #101a13);
     border-radius: 15px;
@@ -93,14 +120,19 @@ h2 {
     margin: 10px 7px;
 }
 #explorecommunitybutton,
-#exploretheotherbutton {
+#exploretheotherbutton,
+#communityjoin {
     padding: 15px 30px;
     border-radius: 7px;
 }
-#explorecommunitybutton{
+#explorecommunitybutton {
     background-color: #53e393;
 }
 #exploretheotherbutton {
     background-color: #1c2221;
+}
+#communityjoin {
+    border: solid #222623;
+    box-shadow: 0px 5px 40px 0px rgba(83, 227, 147, 0.25);
 }
 </style>
