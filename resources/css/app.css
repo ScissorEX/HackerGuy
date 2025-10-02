@@ -1,6 +1,25 @@
-@import
-url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); :root
-{ font-family: 'Poppins', Arial, sans-serif; font-weight: 400; } body { margin: 0; background-color:
-#000000; color: #ffffff; -ms-overflow-style: none; scrollbar-width: none; } body::-webkit-scrollbar
-{ display: none; } .whitebgc { color: #000000; } .blackbgc { color: #ffffff; } .button {
-text-decoration: none; color: #ffffff; }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+:root {
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: 400;
+}
+body {
+    margin: 0;
+    background-color: #000000;
+    color: #ffffff;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+.whitebgc {
+    color: #000000;
+}
+.blackbgc {
+    color: #ffffff;
+}
+.button {
+    text-decoration: none;
+    color: #ffffff;
+}

@@ -1,53 +1,65 @@
 <template>
-  <div id="headernavmain">
-    <div id="headleftside">
-      <router-link to="/" id="chimprankrouter" class="button">
-        <p id="chimprank">ChimpRank</p>
-        <img v-show="show" src="./images/monkey.svg" alt="icon" id="chimpranklogo" />
-      </router-link>
+    <div id="headernavmain">
+        <div id="headleftside">
+            <router-link to="/" id="chimprankrouter" class="button">
+                <p id="chimprank">ChimpRank</p>
+                <img v-show="show" src="./images/monkey.svg" alt="icon" id="chimpranklogo" />
+            </router-link>
 
-      <div id="headnavlink">
-        <router-link to="/products" id="headlink" class="button" @mouseenter="preloadproducts"
-          >Products</router-link
-        >
+            <div id="headnavlink">
+                <router-link
+                    to="/products"
+                    id="headlink"
+                    class="button"
+                    @mouseenter="preloadproducts"
+                    >Products</router-link
+                >
 
-        <router-link to="/solutions" id="headlink" class="button" @mouseenter="preloadsolutions"
-          >Solutions</router-link
-        >
+                <router-link
+                    to="/solutions"
+                    id="headlink"
+                    class="button"
+                    @mouseenter="preloadsolutions"
+                    >Solutions</router-link
+                >
 
-        <router-link to="/resources" id="headlink" class="button" @mouseenter="preloadresources"
-          >Resources</router-link
-        >
+                <router-link
+                    to="/resources"
+                    id="headlink"
+                    class="button"
+                    @mouseenter="preloadresources"
+                    >Resources</router-link
+                >
 
-        <router-link to="/pricing" id="headlink" class="button" @mouseenter="preloadpricing"
-          >Pricing</router-link
-        >
-      </div>
+                <router-link to="/pricing" id="headlink" class="button" @mouseenter="preloadpricing"
+                    >Pricing</router-link
+                >
+            </div>
+        </div>
+        <div>
+            for dev=>
+            <router-link to="/requestdemo" id="demobutton" class="button">Request Demo</router-link>
+            <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
+        </div>
     </div>
-    <div>
-      for dev=>
-      <router-link to="/requestdemo" id="demobutton" class="button">Request Demo</router-link>
-      <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
-    </div>
-  </div>
-  <div id="cookiemonster" class="blackbgc">hello</div>
+    <div id="cookiemonster" class="blackbgc">hello</div>
 </template>
 
 <script setup>
 const preloadproducts = () => {
-  import("../views/Products.vue");
+    import('../views/Products.vue');
 };
 const preloadsolutions = () => {
-  import("../views/Solutions.vue");
+    import('../views/Solutions.vue');
 };
 const preloadresources = () => {
-  import("../views/Resources.vue");
+    import('../views/Resources.vue');
 };
 const preloadpricing = () => {
-  import("../views/Pricing.vue");
+    import('../views/Pricing.vue');
 };
 
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue';
 let show = ref(true);
 /*setInterval(() => {
         show.value = !show.value;
@@ -56,65 +68,65 @@ let show = ref(true);
 
 <style scoped>
 #headernavmain {
-  padding: 0px 30px;
-  color: white;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 1px 2px 0 hsla(0, 0%, 100%, 0.1);
-  z-index: 2;
+    padding: 0px 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 2px 0 hsla(0, 0%, 100%, 0.1);
+    z-index: 2;
 }
 #headleftside {
-  display: flex;
-  align-items: center;
-  flex: 2;
+    display: flex;
+    align-items: center;
+    flex: 2;
 }
 #headnavlink {
-  margin-left: 100px;
+    margin-left: 100px;
 }
 #headleftside .link-active-chimp {
-  color: rgb(218, 218, 218);
+    color: rgb(218, 218, 218);
 }
 #headlink {
-  padding: 20px;
-  color: #969696;
+    padding: 20px;
+    color: #969696;
 }
 #signupbutton,
 #demobutton {
-  padding: 5px 10px;
-  border-radius: 7px;
-  margin: 2px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    margin: 2px;
 }
 #signupbutton {
-  background-color: #00e199;
-  color: #072c09;
+    background-color: #00e199;
+    color: #072c09;
 }
 #demobutton {
-  background-color: #1f1f1f;
-  color: #d8d8d8;
+    background-color: #1f1f1f;
+    color: #d8d8d8;
 }
 #chimprankrouter {
-  width: 200px;
-  height: 100px;
-  display: flex;
+    width: 200px;
+    height: 100px;
+    display: flex;
 }
 #chimprank {
-  font-size: 30px;
-  font-weight: 600;
-  margin-top: 40px;
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 40px;
 }
 #chimpranklogo {
-  position: relative;
-  right: 7px;
-  height: 50px;
-  margin-top: 20px;
+    position: relative;
+    right: 7px;
+    height: 50px;
+    margin-top: 20px;
 }
 #cookiemonster {
-  position: fixed;
-  background-color: #161616;
-  bottom: 100px;
-  width: min(50dvw, 1000px);
-  justify-self: center;
-  border-radius: 7px;
-  height: 100px;
+    position: fixed;
+    background-color: #161616;
+    bottom: 100px;
+    width: min(50dvw, 1000px);
+    justify-self: center;
+    border-radius: 7px;
+    height: 100px;
 }
 </style>
