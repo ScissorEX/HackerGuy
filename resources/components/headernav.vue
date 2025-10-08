@@ -7,27 +7,15 @@
             </router-link>
 
             <div id="headnavlink">
-                <router-link
-                    to="/products"
-                    id="headlink"
-                    class="button"
-                    @mouseenter="preloadproducts"
+                <router-link to="/products" id="headlink" class="button" @mouseenter="preloadproducts"
                     >Products</router-link
                 >
 
-                <router-link
-                    to="/solutions"
-                    id="headlink"
-                    class="button"
-                    @mouseenter="preloadsolutions"
+                <router-link to="/solutions" id="headlink" class="button" @mouseenter="preloadsolutions"
                     >Solutions</router-link
                 >
 
-                <router-link
-                    to="/resources"
-                    id="headlink"
-                    class="button"
-                    @mouseenter="preloadresources"
+                <router-link to="/resources" id="headlink" class="button" @mouseenter="preloadresources"
                     >Resources</router-link
                 >
 
@@ -42,10 +30,23 @@
             <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
         </div>
     </div>
-    <div id="cookiemonster" class="blackbgc">hello</div>
+    <div id="cookiemonster" class="blackbgc">
+        hello
+        <div style="display: flex">
+            <div>
+                <button id="nocookie" class="button">Decline</button>
+            </div>
+
+            <form method="post" action="cookie">
+                <input type="button" value="Accept" id="acceptcookie" class="button" @submit.prevent />
+            </form>
+        </div>
+    </div>
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue';
+const yeah = ref(0);
 const preloadproducts = () => {
     import('../views/Products.vue');
 };
@@ -59,7 +60,6 @@ const preloadpricing = () => {
     import('../views/Pricing.vue');
 };
 
-import { onMounted, ref } from 'vue';
 let show = ref(true);
 /*setInterval(() => {
         show.value = !show.value;
@@ -91,18 +91,30 @@ let show = ref(true);
     color: #969696;
 }
 #signupbutton,
-#demobutton {
-    padding: 5px 10px;
+#demobutton,
+#acceptcookie,
+#nocookie {
+    padding: 7px 15px;
     border-radius: 7px;
     margin: 2px;
+    border: none;
+    font-weight: 400;
+    font-size: 16px;
+    cursor: pointer;
 }
-#signupbutton {
+#signupbutton,
+#acceptcookie {
     background-color: #00e199;
     color: #072c09;
 }
-#demobutton {
+#demobutton,
+#nocookie {
     background-color: #1f1f1f;
     color: #d8d8d8;
+}
+#acceptcookie,
+#nocookie {
+    padding: 10px 15px;
 }
 #chimprankrouter {
     width: 200px;
@@ -123,10 +135,12 @@ let show = ref(true);
 #cookiemonster {
     position: fixed;
     background-color: #161616;
-    bottom: 100px;
+    bottom: 150px;
     width: min(50dvw, 1000px);
     justify-self: center;
-    border-radius: 7px;
-    height: 100px;
+    border-radius: 15px;
+    padding: 20px;
+    height: 80px;
+    display: flex;
 }
 </style>
