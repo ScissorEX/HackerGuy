@@ -22,4 +22,5 @@ body::-webkit-scrollbar {
 .button {
     text-decoration: none;
     color: #ffffff;
+    cursor: pointer;
 }
