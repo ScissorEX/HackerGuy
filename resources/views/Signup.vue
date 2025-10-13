@@ -22,8 +22,15 @@ export default {
                 },
                 body: JSON.stringify(this.formdata),
             });
-            const data = await res.json();
-            console.log(data);
+            try {
+                const data = await res.json();
+                console.log(data);
+            } catch (error) {
+                console.log(error);
+                
+            }
+            
+            
             
         },
     },
@@ -40,34 +47,27 @@ export default {
         </div>
         <form @submit.prevent="formsubmit()" id="formdiv">
             <div id="formin">
-                <label>type your name
-                    <input type="text" name="name" v-model="formdata.name"/>
-                </label>
+                <label>type your name</label>
+                <input type="text" name="name" v-model="formdata.name" class="textin"/>
             </div>
                
             <div id="formin">
-                <label>type your email adress
-                    <input type="text" name="email" v-model="formdata.email"/>
-                </label>
-                
+                <label>type your email adress</label>
+                <input type="text" name="email" v-model="formdata.email" class="textin"/>
             </div>
 
             <div id="formin">
-                <label>type your password
-                    <input type="password" name="password" v-model="formdata.password"/>
-                </label>
-                
+                <label>type your password</label>
+                <input type="password" name="password" v-model="formdata.password" class="textin"/>
             </div>
 
             <div id="formin">
-                <label>confirm your password
-                    <input type="password" name="password_confirmation" v-model="formdata.password_confirmation"/>
-                </label>
-                
+                <label>confirm your password</label>
+                <input type="password" name="password_confirmation" v-model="formdata.password_confirmation" class="textin"/>
             </div>
 
             <div>
-                <input type="submit" />
+                <button type="submit" id="buttonsub">Sign up</button>
             </div>
                 
 
@@ -101,8 +101,19 @@ export default {
 #formin{
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 80%;
     max-width: 300px;
     gap: 8px;
+}
+.textin{
+    width: 100%;
+    padding: 5px;
+    font-size: 1rem;
+}
+#buttonsub{
+    width: 80px;
+    height: 30px;
+    font-size: 1rem;
 }
 </style>
