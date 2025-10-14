@@ -1,89 +1,53 @@
-<script>
-export default {
-    data(){
-        return{
-        formdata : {
-                    name:"",
-                    email: "",
-                    password:"",
-                    password_confirmation:""
-            }
-        }
-    },
-    methods: {
-        async formsubmit() {
-            const token = document.querySelector('meta[name="csrf"]').content;
-            
-            const res = await fetch('api/signup', {
-                method: 'post',
-                headers: {
-                    'X-CSRF-TOKEN': token,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.formdata),
-            });
-            try {
-                const data = await res.json();
-                console.log(data);
-            } catch (error) {
-                console.log(error);
-                
-            }
-            
-            
-            
-        },
-    },
-};
+<script setup>
+import logincomp from '../components/logincomp.vue';
+import signupcomp from '../components/signupcomp.vue';
+import { onMounted, ref } from 'vue';
+import { useAuthStore } from '../js/Stores/AuthHandling.js';
+import { storeToRefs } from 'pinia';
 
+const { errors } = storeToRefs(useAuthStore());
+const { logout } = useAuthStore();
 
+onMounted(() => (errors.value = {}));
+const tologin = ref(true);
 </script>
 
 <template>
     <div>
         <div id="div60">
-        <div id="logo">
-            <img src="../components/images/monkey.svg" style="width: 100%" />
-        </div>
-        <form @submit.prevent="formsubmit()" id="formdiv">
-            <div id="formin">
-                <label>type your name</label>
-                <input type="text" name="name" v-model="formdata.name" class="textin"/>
-            </div>
-               
-            <div id="formin">
-                <label>type your email adress</label>
-                <input type="text" name="email" v-model="formdata.email" class="textin"/>
+            <div id="logo">
+                <img src="../components/images/monkey.svg" style="width: 100%" />
             </div>
 
-            <div id="formin">
-                <label>type your password</label>
-                <input type="password" name="password" v-model="formdata.password" class="textin"/>
+            <div v-if="tologin">
+                <signupcomp></signupcomp>
+                <div>
+                    <p style="justify-self: center">Already have an account?</p>
+                    <button @click="tologin = !tologin" id="buttonswitch">Sign in instead</button>
+                </div>
             </div>
 
-            <div id="formin">
-                <label>confirm your password</label>
-                <input type="password" name="password_confirmation" v-model="formdata.password_confirmation" class="textin"/>
+            <div v-if="!tologin">
+                <logincomp></logincomp>
+                <button @click="tologin = !tologin" id="buttonswitch">Back to Sign Up</button>
             </div>
-
-            <div>
-                <button type="submit" id="buttonsub">Sign up</button>
-            </div>
-                
-
-        </form>
+            <form @submit.prevent="logout()">
+                <button type="submit"></button>
+            </form>
         </div>
     </div>
 </template>
 
 <style scoped>
-#div60{
-     border: solid #408040;
-     border-width: 0px 3px;
-    box-shadow: 10px 0px 40px 10px rgba(83, 227, 147, 0.25),-10px 0px 40px 10px rgba(83, 227, 147, 0.25);
-        width: max(60vw,500px);
-            justify-self: center;
-            height: 100vh;
+#div60 {
+    border: solid #408040;
+    border-width: 0px 3px;
+    box-shadow:
+        10px 0px 40px 10px rgba(83, 227, 147, 0.25),
+        -10px 0px 40px 10px rgba(83, 227, 147, 0.25);
+    width: max(60vw, 500px);
+    justify-self: center;
+    height: 100vh;
 }
 #logo {
     justify-self: center;
@@ -98,7 +62,7 @@ export default {
     justify-content: center;
     gap: 30px;
 }
-#formin{
+:deep(#formin) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -106,14 +70,21 @@ export default {
     max-width: 300px;
     gap: 8px;
 }
-.textin{
+:deep(.textin) {
     width: 100%;
     padding: 5px;
     font-size: 1rem;
 }
-#buttonsub{
+:deep(#buttonsub) {
     width: 80px;
     height: 30px;
     font-size: 1rem;
+}
+#buttonswitch {
+    display: flex;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 25px;
+    justify-self: center;
 }
 </style>

@@ -1,26 +1,42 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Welcome from '../resources/views/Welcome.vue';
 import Home from '../resources/views/Home.vue';
+import { useAuthStore } from '../resources/js/Stores/AuthHandling';
 
 const routes = [
     {
         path: '/',
         components: { default: Welcome },
         children: [
-            { path: '/', component: Home },
-            { path: '/products', component: () => import('../resources/views/Products.vue') },
-            { path: '/solutions', component: () => import('../resources/views/Solutions.vue') },
-            { path: '/resources', component: () => import('../resources/views/Resources.vue') },
-            { path: '/pricing', component: () => import('../resources/views/Pricing.vue') },
-            { path: '/requestdemo', component: () => import('../resources/views/RequestDemo.vue') },
+            { path: '/', name: "home", component: Home },
+            { path: '/products', name: "products", component: () => import('../resources/views/Products.vue') },
+            { path: '/solutions', name: "solutions", component: () => import('../resources/views/Solutions.vue') },
+            { path: '/resources', name: "resources", component: () => import('../resources/views/Resources.vue') },
+            { path: '/pricing', name: "pricing", component: () => import('../resources/views/Pricing.vue') },
+            { path: '/requestdemo', name: "requestdemo", component: () => import('../resources/views/RequestDemo.vue') },
         ],
     },
-    { path: '/signup', component: () => import('../resources/views/Signup.vue') },
-    { path: '/community', component: () => import('../resources/views/Community.vue') },
+    { path: '/signup', name: "signup", component: () => import('../resources/views/Signup.vue') },
+    { path: '/community', name: "community", component: () => import('../resources/views/Community.vue') },
 ];
 const router = createRouter({
     history: createWebHistory(),
     routes,
     linkActiveClass: 'link-active-chimp',
 });
+
+
+router.beforeEach(async (to, from) => {
+  const authStore = useAuthStore();
+  await authStore.getUser();
+
+  if (authStore.user && to.meta.guest) {
+    return { name: "home" };
+  }
+
+  if (!authStore.user && to.meta.auth) {
+    return { name: "login" };
+  }
+});
+
 export default router;
