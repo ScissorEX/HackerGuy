@@ -12,7 +12,7 @@
             </h1>
             <p>theres a text here lol</p>
             <div style="margin: 80px">
-                <router-link to="/community" id="communityjoin" class="button" @mouseenter="preloadcommunity">
+                <router-link to="/community" id="communityjoin" class="button">
                     Join The Community</router-link
                 >
             </div>
@@ -49,13 +49,16 @@
                 <a id="exploretheotherbutton">Explore ChimpRank Community</a>
             </div>
         </div>
+        <div>
+            <div>
+                <h1> Life-Changing <br> Pack Development</h1>
+            </div>
+            d
+        </div>
     </div>
 </template>
 
 <script setup>
-const preloadcommunity = () => {
-    import('./Community.vue');
-};
 </script>
 
 <style scoped>

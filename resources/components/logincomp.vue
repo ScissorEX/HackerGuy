@@ -16,7 +16,7 @@
     </form>
 </template>
 
-<script setup>
+<script setup> 
 import { reactive, onMounted } from 'vue';
 import { useAuthStore } from '../js/Stores/AuthHandling.js';
 import { storeToRefs } from 'pinia';
