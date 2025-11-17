@@ -1,8 +1,9 @@
 <template>
     <communityhead></communityhead>
-    <div id="body"><div id="content">wdawd</div>
-    <aside id="aside">popular posts</aside></div>
-    
+    <div id="body">
+        <div id="content">wdawd</div>
+        <aside id="aside">popular posts</aside>
+    </div>
 </template>
 
 <script setup>
@@ -10,13 +11,14 @@ import communityhead from '../Community/communityhead.vue';
 </script>
 
 <style scoped>
-#body{
+#body {
     background-color: blue;
+    max-width: 1264px;
 }
-#content{
+#content {
     background-color: chartreuse;
 }
-#aside{
+#aside {
     background-color: aqua;
 }
 </style>

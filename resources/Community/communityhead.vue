@@ -1,64 +1,68 @@
 <template>
-    <div id="headernavmain">
-        <div id="headleftside">
+    <div id="biggestheader">
+        <div id="headernavmain">
             <router-link to="/" id="chimprankrouter" class="button">
                 <p id="chimprank">ChimpRank</p>
                 <img src="../components/images/monkey.svg" alt="icon" id="chimpranklogo" />
             </router-link>
 
             <div id="headnavlink">
-                <router-link to="/products" id="headlink" class="button" @mouseenter="preloadproducts"
-                    >Products</router-link
-                >
-
-                <router-link to="/solutions" id="headlink" class="button" @mouseenter="preloadsolutions"
-                    >Solutions</router-link
-                >
-
-                <router-link to="/resources" id="headlink" class="button" @mouseenter="preloadresources"
-                    >Resources</router-link
-                >
-
-                <router-link to="/pricing" id="headlink" class="button" @mouseenter="preloadpricing"
-                    >Pricing</router-link
-                >
+                <img src="../components/images/icons/search.svg" id="searchicon"/>
+                <input id="searchbar" />
             </div>
-        </div>
-        <div>
-            <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
+            <div>
+                <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
+            </div>
         </div>
     </div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style scoped>
+#biggestheader {
+    width: 100%;
+    background-color: #1f3347;
+    justify-items: center;
+}
 #headernavmain {
     padding: 0px 30px;
     display: flex;
     align-items: center;
+    justify-content: center;
     box-shadow: 0 1px 2px 0 hsla(0, 0%, 100%, 0.1);
     z-index: 2;
-    background-color: hsl(210, 40%, 20%);
-}
-#headleftside {
-    display: flex;
-    align-items: center;
-    flex: 2;
+    width: 50%;
 }
 #headnavlink {
-    margin-left: 100px;
+    margin: 0 30px;
+    padding: 1px 50px 1px 25px;
+    border-radius: 15px;
+    background-color: hsl(210, 83%, 74%);
+    display: flex;
+    
+    border: solid 2px #192939;
 }
-#headleftside .link-active-chimp {
-    color: rgb(218, 218, 218);
-}
-#headlink {
-    padding: 20px;
-    color: #969696;
+#searchbar {
+    text-decoration: none;
+    padding: 1px 0;
+    margin: 0;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: inherit;
+    outline: none;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Roboto', 'Arial', sans-serif;
+    font-size: 1.3rem;
+    line-height: 2rem;
 }
 #signupbutton,
-#demobutton{
+#demobutton {
     padding: 7px 15px;
     border-radius: 7px;
     margin: 2px;
@@ -76,19 +80,19 @@
     color: #d8d8d8;
 }
 #chimprankrouter {
-    width: 200px;
-    height: 100px;
+    width: 120px;
+    height: 50px;
     display: flex;
 }
 #chimprank {
-    font-size: 30px;
+    font-size: 15px;
     font-weight: 600;
-    margin-top: 40px;
+    margin-top: 25px;
 }
 #chimpranklogo {
     position: relative;
     right: 7px;
-    height: 50px;
-    margin-top: 20px;
+    height: 30px;
+    margin-top: 10px;
 }
 </style>

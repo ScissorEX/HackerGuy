@@ -1,7 +1,7 @@
 <script setup>
 import logincomp from '../components/logincomp.vue';
 import signupcomp from '../components/signupcomp.vue';
-import { onMounted,onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useAuthStore } from '../js/Stores/AuthHandling.js';
 import { storeToRefs } from 'pinia';
 
@@ -11,15 +11,14 @@ const { logout } = useAuthStore();
 onMounted(() => (errors.value = {}));
 const tologin = ref(true);
 
-
 onMounted(() => {
     document.body.style.backgroundColor = 'black';
     document.body.style.color = 'white';
-})
+});
 onUnmounted(() => {
     document.body.style.backgroundColor = '';
     document.body.style.color = '';
-})
+});
 </script>
 
 <template>

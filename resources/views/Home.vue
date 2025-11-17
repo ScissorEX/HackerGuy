@@ -12,9 +12,7 @@
             </h1>
             <p>theres a text here lol</p>
             <div style="margin: 80px">
-                <router-link to="/community" id="communityjoin" class="button">
-                    Join The Community</router-link
-                >
+                <router-link to="/community" id="communityjoin" class="button"> Join The Community</router-link>
             </div>
         </div>
     </div>
@@ -51,15 +49,17 @@
         </div>
         <div>
             <div>
-                <h1> Life-Changing <br> Pack Development</h1>
+                <h1>
+                    Life-Changing <br />
+                    Pack Development
+                </h1>
             </div>
             d
         </div>
     </div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style scoped>
 #homediv1 {
