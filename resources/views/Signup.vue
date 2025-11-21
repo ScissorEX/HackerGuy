@@ -22,10 +22,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div>
         <div id="div60">
             <div id="logo">
-                <img src="../components/images/monkey.svg" style="width: 100%" />
+                <img src="../components/images/icons/monkey.svg" style="width: 100%" />
             </div>
 
             <div v-if="tologin">
@@ -44,19 +43,18 @@ onUnmounted(() => {
                 <button type="submit"></button>
             </form>
         </div>
-    </div>
 </template>
 
 <style scoped>
 #div60 {
-    border: solid #408040;
-    border-width: 0px 3px;
-    box-shadow:
-        10px 0px 40px 10px rgba(83, 227, 147, 0.25),
-        -10px 0px 40px 10px rgba(83, 227, 147, 0.25);
-    width: max(60vw, 500px);
-    justify-self: center;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
+    background-image: url(../components/images/Wave.svg),
+    linear-gradient(#223348 50%, #72abf2 50%);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50%;
+    
 }
 #logo {
     justify-self: center;

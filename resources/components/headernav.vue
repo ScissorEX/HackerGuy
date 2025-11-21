@@ -3,7 +3,7 @@
         <div id="headleftside">
             <router-link to="/" id="chimprankrouter" class="button">
                 <p id="chimprank">ChimpRank</p>
-                <img v-show="show" src="./images/monkey.svg" alt="icon" id="chimpranklogo" />
+                <img v-show="show" src="./images/icons/monkey.svg" alt="icon" id="chimpranklogo" />
             </router-link>
 
             <div id="headnavlink">

@@ -3,11 +3,11 @@
         <div id="headernavmain">
             <router-link to="/" id="chimprankrouter" class="button">
                 <p id="chimprank">ChimpRank</p>
-                <img src="../components/images/monkey.svg" alt="icon" id="chimpranklogo" />
+                <img src="../components/images/icons/monkey.svg" alt="icon" id="chimpranklogo" />
             </router-link>
 
             <div id="headnavlink">
-                <img src="../components/images/icons/search.svg" id="searchicon"/>
+                <img src="../components/images/icons/search.svg" id="searchicon" />
                 <input id="searchbar" />
             </div>
             <div>
@@ -24,13 +24,13 @@
     width: 100%;
     background-color: #1f3347;
     justify-items: center;
+    box-shadow: 0 1px 2px 0 hsla(0, 0%, 100%, 0.1);
 }
 #headernavmain {
     padding: 0px 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 1px 2px 0 hsla(0, 0%, 100%, 0.1);
     z-index: 2;
     width: 50%;
 }
@@ -40,12 +40,13 @@
     border-radius: 15px;
     background-color: hsl(210, 83%, 74%);
     display: flex;
-    
+    justify-content: space-between;
+    width: 600px;
     border: solid 2px #192939;
 }
 #searchbar {
     text-decoration: none;
-    padding: 1px 0;
+    padding: 1px 3px;
     margin: 0;
     width: 100%;
     background-color: transparent;
@@ -54,9 +55,6 @@
     color: inherit;
     outline: none;
     appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -webkit-font-smoothing: antialiased;
     font-family: 'Roboto', 'Arial', sans-serif;
     font-size: 1.3rem;
     line-height: 2rem;
@@ -87,12 +85,12 @@
 #chimprank {
     font-size: 15px;
     font-weight: 600;
-    margin-top: 25px;
+    margin-top: 22px;
 }
 #chimpranklogo {
     position: relative;
     right: 7px;
     height: 30px;
-    margin-top: 10px;
+    margin-top: 7px;
 }
 </style>
