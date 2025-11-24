@@ -19,8 +19,6 @@ const routes = [
     },
     { path: '/signup', name: "signup", component: () => import('../resources/views/Signup.vue') },
     { path: '/community', name: "community", component: Community, children:[
-
-
       
     ] },
 ];

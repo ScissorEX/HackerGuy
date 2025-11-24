@@ -1,7 +1,7 @@
 <script setup>
 import logincomp from '../components/logincomp.vue';
 import signupcomp from '../components/signupcomp.vue';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { useAuthStore } from '../js/Stores/AuthHandling.js';
 import { storeToRefs } from 'pinia';
 
@@ -23,9 +23,7 @@ onUnmounted(() => {
 
 <template>
         <div id="div60">
-            <div id="logo">
-                <img src="../components/images/icons/monkey.svg" style="width: 100%" />
-            </div>
+                <img @click="$router.back()" src="../components/images/icons/monkey.svg" style="width: 250px;"/>
 
             <div v-if="tologin">
                 <signupcomp></signupcomp>
@@ -57,9 +55,9 @@ onUnmounted(() => {
     
 }
 #logo {
-    justify-self: center;
-    width: 200px;
     padding: 50px;
+    display: flex;
+    justify-self: center;
 }
 #formdiv {
     height: auto;
