@@ -26,6 +26,7 @@
     justify-items: center;
     box-shadow: 0 1px 2px 0 hsla(0, 0%, 100%, 0.1);
 }
+
 #headernavmain {
     padding: 0px 30px;
     display: flex;
@@ -34,6 +35,7 @@
     z-index: 2;
     width: 50%;
 }
+
 #headnavlink {
     margin: 0 30px;
     padding: 1px 50px 1px 25px;
@@ -44,6 +46,7 @@
     width: 600px;
     border: solid 2px #192939;
 }
+
 #searchbar {
     text-decoration: none;
     padding: 1px 3px;
@@ -59,6 +62,7 @@
     font-size: 1.3rem;
     line-height: 2rem;
 }
+
 #signupbutton,
 #demobutton {
     padding: 7px 15px;
@@ -69,24 +73,29 @@
     font-size: 16px;
     cursor: pointer;
 }
+
 #signupbutton {
     background-color: #00e199;
     color: #072c09;
 }
+
 #demobutton {
     background-color: #1f1f1f;
     color: #d8d8d8;
 }
+
 #chimprankrouter {
     width: 120px;
     height: 50px;
     display: flex;
 }
+
 #chimprank {
     font-size: 15px;
     font-weight: 600;
     margin-top: 22px;
 }
+
 #chimpranklogo {
     position: relative;
     right: 7px;

@@ -7,21 +7,17 @@
             </router-link>
 
             <div id="headnavlink">
-                <router-link to="/products" id="headlink" class="button" @mouseenter="preloadproducts"
-                    >Products</router-link
-                >
+                <router-link to="/products" id="headlink" class="button"
+                    @mouseenter="preloadproducts">Products</router-link>
 
-                <router-link to="/solutions" id="headlink" class="button" @mouseenter="preloadsolutions"
-                    >Solutions</router-link
-                >
+                <router-link to="/solutions" id="headlink" class="button"
+                    @mouseenter="preloadsolutions">Solutions</router-link>
 
-                <router-link to="/resources" id="headlink" class="button" @mouseenter="preloadresources"
-                    >Resources</router-link
-                >
+                <router-link to="/resources" id="headlink" class="button"
+                    @mouseenter="preloadresources">Resources</router-link>
 
-                <router-link to="/pricing" id="headlink" class="button" @mouseenter="preloadpricing"
-                    >Pricing</router-link
-                >
+                <router-link to="/pricing" id="headlink" class="button"
+                    @mouseenter="preloadpricing">Pricing</router-link>
             </div>
         </div>
         <div>
@@ -75,21 +71,26 @@ let show = ref(true);
     box-shadow: 0 1px 2px 0 hsla(0, 0%, 100%, 0.1);
     z-index: 2;
 }
+
 #headleftside {
     display: flex;
     align-items: center;
     flex: 2;
 }
+
 #headnavlink {
     margin-left: 100px;
 }
+
 #headleftside .link-active-chimp {
     color: rgb(218, 218, 218);
 }
+
 #headlink {
     padding: 20px;
     color: #969696;
 }
+
 #signupbutton,
 #demobutton,
 #acceptcookie,
@@ -102,36 +103,43 @@ let show = ref(true);
     font-size: 16px;
     cursor: pointer;
 }
+
 #signupbutton,
 #acceptcookie {
     background-color: #00e199;
     color: #072c09;
 }
+
 #demobutton,
 #nocookie {
     background-color: #1f1f1f;
     color: #d8d8d8;
 }
+
 #acceptcookie,
 #nocookie {
     padding: 10px 15px;
 }
+
 #chimprankrouter {
     width: 200px;
     height: 100px;
     display: flex;
 }
+
 #chimprank {
     font-size: 30px;
     font-weight: 600;
     margin-top: 40px;
 }
+
 #chimpranklogo {
     position: relative;
     right: 7px;
     height: 50px;
     margin-top: 20px;
 }
+
 #cookiemonster {
     position: fixed;
     background-color: #161616;
