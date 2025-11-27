@@ -13,4 +13,10 @@ Route::post('/signup', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
 Route::post('/logout', [AuthController::class,'logout'])->middleware('auth:sanctum');
 
-Route::resource('Post', PostController::class);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('posts', PostController::class)->except(['index', 'show']);
+});
+
+Route::get('posts', [PostController::class, 'index']);
+Route::get('posts/{post}', [PostController::class, 'show']);

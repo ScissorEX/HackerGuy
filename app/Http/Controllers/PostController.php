@@ -19,7 +19,7 @@ class PostController extends Controller
     {
         return response()->json($post->load('author', 'comments'));
     }
-    
+
     public function store(Request $request)
     {
          $validated = $request->validate([
@@ -27,7 +27,7 @@ class PostController extends Controller
             'content' => 'required',
         ]);
 
-        $post = Auth()->user()->posts()->create($validated);
+        $post = auth()->user()->posts()->create($validated);
         
         return response()->json($post, 201);
     }

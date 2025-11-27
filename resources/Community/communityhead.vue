@@ -13,6 +13,8 @@
             <div>
                 <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
             </div>
+
+            <router-link to="/community/createpost" id="signupbutton" class="button">create post +</router-link>
         </div>
     </div>
 </template>

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Welcome from '../resources/views/Welcome.vue';
 import Home from '../resources/views/Home.vue';
-import Community from '../resources/views/Community.vue';
 import { useAuthStore } from '../resources/js/Stores/AuthHandling';
 
 const routes = [
@@ -18,9 +17,8 @@ const routes = [
         ],
     },
     { path: '/signup', name: "signup", component: () => import('../resources/views/Signup.vue') },
-    { path: '/community', name: "community", component: Community, children:[
-      
-    ] },
+    { path: '/community', name: "community", component: () => import('../resources/views/Community.vue')},
+    {path: '/community/createpost', name:"createpost", component: ()=>import('../resources/views/communitycreatepost.vue')}
 ];
 const router = createRouter({
     history: createWebHistory(),
