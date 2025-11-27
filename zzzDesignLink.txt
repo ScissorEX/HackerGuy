@@ -1,1 +1,7 @@
 https://dribbble.com/shots/26414267-B2B-SaaS-Landing-Page-Design-for-HackerRank
+
+npm i
+composer i
+create .env
+php artisan key:generate
+php artisan migrate
