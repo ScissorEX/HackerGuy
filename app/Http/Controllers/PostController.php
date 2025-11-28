@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
 
     public function index()
     {
-        $posts = Post::with('author')->where('published_at', '<=', now())->latest()->paginate(10);
+        //$posts = Post::with('author')->where('published_at', '<=', now())->latest()->paginate(10);
+        $posts = Post::with('author')->latest()->paginate(10);
         return response()->json($posts);
     }
 
@@ -26,7 +27,7 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'content' => 'required',
         ]);
-
+        //ignore underfined error
         $post = auth()->user()->posts()->create($validated);
         
         return response()->json($post, 201);

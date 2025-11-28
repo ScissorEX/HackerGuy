@@ -11,13 +11,20 @@
                 </div>
                 <div></div>
             </aside>
-            <div id="content">the content of the post or post on subed channels</div>
+            <div id="content" > <postcard v-for="post in posts" :key="post.id" :post="post" ></postcard></div>
         </div>
     </div>
 </template>
 
 <script setup>
-import communityhead from '../Community/communityhead.vue';
+import communityhead from '../components/communityhead.vue';
+import postcard from '../components/communitypostcard.vue';
+import { usePostStore } from '../js/Stores/PostHandling';
+import { onMounted, ref } from 'vue';
+
+const { getListPosts } = usePostStore();
+const posts = ref([]);
+onMounted(async()=>{posts.value = await getListPosts()});
 </script>
 
 <style scoped>
@@ -34,6 +41,10 @@ import communityhead from '../Community/communityhead.vue';
 #content {
     background-color: chartreuse;
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 8px;
 }
 #aside {
     background-color: aqua;

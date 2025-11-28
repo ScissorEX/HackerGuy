@@ -8,6 +8,18 @@ export const usePostStore = defineStore('postStore', {
         };
     },
     actions: {
+        async getListPosts() {
+            const res = await fetch("/api/posts");
+             const json = await res.json();
+            const data = json.data;
+            return data;
+        },
+        async getPost(post){
+            const res = await fetch(`/api/posts/${post}`);
+            const data = await res.json();
+
+            return data.post;
+        },
         async postsubmit(formdata) {
             const token = localStorage.getItem('token');
 
