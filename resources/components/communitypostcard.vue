@@ -1,9 +1,9 @@
 <template>
-    <div id="thecard">
+    <router-link to="/community" id="thecard">
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
-        <span>By {{ post.author?.name }}</span>
-    </div>
+        <span>By {{ post.author.name }}</span>
+    </router-link>
 </template>
 
 <script setup>
@@ -18,6 +18,7 @@
 <style scoped>
 #thecard{
     background-color: #fff;
-    
+    border-radius: 10px;
+    width: 400px;
 }
 </style>

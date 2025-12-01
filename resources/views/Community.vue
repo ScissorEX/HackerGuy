@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100dvh; display: flex; flex-direction: column;">
+    <div id="bgc">
         <communityhead></communityhead>
         <div id="body">
             <aside id="aside">
@@ -28,8 +28,13 @@ onMounted(async()=>{posts.value = await getListPosts()});
 </script>
 
 <style scoped>
+#bgc{
+    height: 100dvh;
+     display: flex;
+      flex-direction: column;
+    background-color: cornflowerblue;
+}
 #body {
-    background-color: blue;
     max-width: 1200px;
     width: 100%;
     background: none;
@@ -39,11 +44,12 @@ onMounted(async()=>{posts.value = await getListPosts()});
     height: 100%;
 }
 #content {
-    background-color: chartreuse;
+    background-color: rgb(158, 158, 158);
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     gap: 8px;
 }
 #aside {

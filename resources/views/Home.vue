@@ -49,12 +49,11 @@
         </div>
         <div>
             <div>
-                <h1>
+                <!-- <h1>
                     Life-Changing <br />
                     Pack Development
-                </h1>
+                </h1> -->
             </div>
-            d
         </div>
     </div>
 </template>
