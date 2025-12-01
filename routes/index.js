@@ -18,7 +18,8 @@ const routes = [
     },
     { path: '/signup', name: "signup", component: () => import('../resources/views/Signup.vue') },
     { path: '/community', name: "community", component: () => import('../resources/views/Community.vue')},
-    {path: '/community/createpost', name:"createpost", component: ()=>import('../resources/views/communitycreatepost.vue')}
+    {path: '/community/createpost', name:"createpost", component: ()=>import('../resources/views/communitycreatepost.vue')},
+    {path: '/community/:id/:slug', name:"viewpost", component:()=>import('../resources/views/Communityviewpost.vue')}
 ];
 const router = createRouter({
     history: createWebHistory(),

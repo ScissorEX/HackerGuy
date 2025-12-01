@@ -28,7 +28,7 @@ class CommentController extends Controller
 
     public function show(Comment $comment)
     {
-        return response()->json($comment->load('author', 'comments'));
+        return response()->json($comment);
     }
 
     public function update(Request $request, Comment $comment)

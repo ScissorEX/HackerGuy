@@ -17,8 +17,8 @@ export const usePostStore = defineStore('postStore', {
         async getPost(post){
             const res = await fetch(`/api/posts/${post}`);
             const data = await res.json();
-
-            return data.post;
+            
+            return data;
         },
         async postsubmit(formdata) {
             const token = localStorage.getItem('token');
