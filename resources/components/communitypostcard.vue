@@ -1,9 +1,9 @@
 <template>
-    <router-link to="/community" id="thecard">
+    <a @click="showpost(post)" id="thecard">
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
         <span>By {{ post.author.name }}</span>
-    </router-link>
+    </a>
 </template>
 
 <script setup>
@@ -13,6 +13,12 @@
         required: true
     }
 });
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+function showpost(post){
+    router.push({name:"viewpost",params:{id: post.id, slug: post.slug}})
+}
 </script>
 
 <style scoped>

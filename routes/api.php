@@ -17,9 +17,9 @@ Route::post('logout', [AuthController::class,'logout'])->middleware('auth:sanctu
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('posts', PostController::class)->except(['index', 'show']);
+    Route::post('posts/{post}/comments', [CommentController::class, 'store']);
 });
 
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
-
-Route::post('comment', [CommentController::class, 'store']);
+Route::get('posts/{post}/comments', [CommentController::class, 'index']);
