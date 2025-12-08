@@ -18,7 +18,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return response()->json($post->load('author', 'comments.author'));
+        return response()->json($post->load('author', 'comments.author','votes'));
     }
 
     public function store(Request $request)

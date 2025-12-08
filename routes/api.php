@@ -19,11 +19,11 @@ Route::post('logout', [AuthController::class,'logout'])->middleware('auth:sanctu
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('posts', PostController::class)->except(['index', 'show']);
     Route::post('posts/{post}/comments', [CommentController::class, 'store']);
+    Route::post('posts/{post}/vote', [VoteController::class, 'votePost']);
+    Route::post('comments/{comment}/vote', [VoteController::class, 'voteComment']);
 });
 
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
 Route::get('posts/{post}/comments', [CommentController::class, 'index']);
 
-Route::post('posts/{post}/vote', [VoteController::class, 'votePost']);
-Route::post('comments/{comment}/vote', [VoteController::class, 'voteComment']);
