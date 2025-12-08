@@ -17,4 +17,7 @@ class Comment extends Model
     public function post(){
         return $this->belongsTo(Post::class,'post_id');
     }
+    public function votes(){
+        return $this->morphMany(Vote::class,'voteable');
+    }
 }

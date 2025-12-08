@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,6 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
 Route::get('posts/{post}/comments', [CommentController::class, 'index']);
+
+Route::post('posts/{post}/vote', [VoteController::class, 'votePost']);
+Route::post('comments/{comment}/vote', [VoteController::class, 'voteComment']);

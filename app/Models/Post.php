@@ -29,4 +29,7 @@ class Post extends Model
     public function ispublished(){
         return $this->published_at !== null && $this->published_at->isPast();
     }
+    public function votes(){
+        return $this->morphMany(Vote::class,'voteable');
+    }
 }

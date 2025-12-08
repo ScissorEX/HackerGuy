@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->morphs('voteable');
+            $table->integer('vote');
             $table->timestamps();
+            $table->unique(['user_id', 'votable_id', 'votable_type']);
         });
     }
 
