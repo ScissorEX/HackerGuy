@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Vote;
-use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class VoteController extends Controller
@@ -22,20 +22,17 @@ class VoteController extends Controller
 
         if ($oldvote) {
             if ($voteValue == $oldvote->vote) {
-
                 $oldvote->delete();
             } else {
-
                 $oldvote->vote = $voteValue;
                 $oldvote->save();
             }
         } else {
             $post->votes()->create([
                 'user_id' => auth()->id(),
-                'vote' => $voteValue
+                'vote' => $voteValue,
             ]);
         }
-
         return response()->json(['message' => 'Vote recorded'], 200);
     }
 
@@ -52,20 +49,17 @@ class VoteController extends Controller
 
         if ($oldvote) {
             if ($voteValue == $oldvote->vote) {
-
                 $oldvote->delete();
             } else {
-
                 $oldvote->vote = $voteValue;
                 $oldvote->save();
             }
         } else {
             $comment->votes()->create([
                 'user_id' => auth()->id(),
-                'vote' => $voteValue
+                'vote' => $voteValue,
             ]);
         }
-
         return response()->json(['message' => 'Vote recorded'], 200);
     }
 }

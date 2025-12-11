@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const usePostStore = defineStore('postStore', {
+export const useVoteStore = defineStore('voteStore', {
     state: () => {
         return {
             user: null,
@@ -8,30 +8,18 @@ export const usePostStore = defineStore('postStore', {
         };
     },
     actions: {
-        async getListPosts() {
-            const res = await fetch("/api/posts");
-            const json = await res.json();
-            const data = json.data;
-            return data;
-        },
-        async getPost(post) {
-            const res = await fetch(`/api/posts/${post}`);
-            const data = await res.json();
-            console.log(data);
-
-            return data;
-        },
-        async postsubmit(formdata) {
+        async votesubmit(vote,type,route) {
             const token = localStorage.getItem('token');
-
-            const res = await fetch('/api/posts', {
+            console.log(vote);
+            
+            const res = await fetch(`/api/${type}/${route}/vote`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(formdata),
+                body: `{"vote" : ${vote}}`,
             });
 
             if (!res.ok) {
@@ -45,5 +33,10 @@ export const usePostStore = defineStore('postStore', {
             return data;
         },
 
-    },
-});
+
+
+
+
+
+    }
+})

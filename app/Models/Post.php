@@ -9,27 +9,53 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['title', 'content', 'slug', 'user_id', 'published_at'];
+
     protected $casts = ['published_at' => 'datetime'];
 
-    protected static function boot(){
+    protected static function boot()
+    {
         parent::boot();
-        static::creating(function($post) {
+        static::creating(function ($post) {
             $post->slug = Str::slug($post->title);
         });
     }
 
-    public function author(){
+    //relations
+    public function author()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
-    public function ispublished(){
+    public function votes()
+    {
+        return $this->morphMany(Vote::class, 'voteable');
+    }
+    public function ispublished()
+    {
         return $this->published_at !== null && $this->published_at->isPast();
     }
-    public function votes(){
-        return $this->morphMany(Vote::class,'voteable');
+
+    //votes count
+    protected $appends = ['upvotecount', 'downvotecount', 'uservote'];
+
+
+    public function getUpvotecountAttribute()
+    {
+        return $this->votes->where('vote', 1)->count();
+    }
+
+    public function getDownvotecountAttribute()
+    {
+        return $this->votes->where('vote', -1)->count();
+    }
+
+    public function getUservoteAttribute()
+    {
+        return $this->votes->where('user_id', auth()->id())->first();
     }
 }
