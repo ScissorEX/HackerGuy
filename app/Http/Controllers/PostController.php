@@ -18,8 +18,18 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return response()->json($post->load('author', 'comments.author','votes'));
+
+    $post->loadCount([
+        'votes as upvote_count' => fn($q) => $q->where('vote', 1),
+        'votes as downvote_count' => fn($q) => $q->where('vote', -1),
+    ]);
+    
+    if (auth()->check()) {
+        $post->load(['votes' => fn($q) => $q->where('user_id', auth()->id())]);
     }
+    
+    return response()->json($post->load('author', 'comments.author'));
+}
 
     public function store(Request $request)
     {

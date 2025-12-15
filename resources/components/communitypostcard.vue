@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-    defineProps({
+defineProps({
     post: {
         type: Object,
         required: true
@@ -16,13 +16,13 @@
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-function showpost(post){
-    router.push({name:"viewpost",params:{id: post.id, slug: post.slug}})
+function showpost(post) {
+    router.push({ name: "viewpost", params: { id: post.id, slug: post.slug }, props: true })
 }
 </script>
 
 <style scoped>
-#thecard{
+#thecard {
     background-color: #fff;
     border-radius: 10px;
     width: 400px;

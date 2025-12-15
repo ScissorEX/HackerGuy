@@ -15,7 +15,11 @@ export const usePostStore = defineStore('postStore', {
             return data;
         },
         async getPost(post) {
-            const res = await fetch(`/api/posts/${post}`);
+            const token = localStorage.getItem('token');
+
+            const res = await fetch(`/api/posts/${post}`, {
+                headers: { 'Authorization': `Bearer ${token}` },
+            });
             const data = await res.json();
             console.log(data);
 

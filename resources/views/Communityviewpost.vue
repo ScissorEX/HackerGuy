@@ -11,8 +11,8 @@
 
             <h3>by {{ post.author.name }}</h3>
             <h4>upvotes {{ upvote }} | {{ downvote }} downvotes</h4>
-            <button @click="votesubmit(1,type,post.id)"> upvote</button>
-             <button @click="votesubmit(-1,type,post.id)"> downvote</button>
+            <button @click="voting(1)"> upvote</button>
+             <button @click="voting(-1)"> downvote</button>
             <!-- <comment v-for="comment in post.comments" :key="comment.id" :comment="comment"></comment> -->
         </div>
 </template>
@@ -24,12 +24,13 @@ import { storeToRefs } from 'pinia';
 
 //votesubmit(vote,type,route)
 
-import { ref, watch,reactive, onMounted } from 'vue'
+import { ref, watch, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePostStore } from '../js/Stores/PostHandling.js'
 import comment from '../components/communitycomment.vue';
 
-const { getPost } = usePostStore();
+const postStore = usePostStore();
+const { getPost } = postStore;
 
 const route = useRoute()
 
@@ -37,24 +38,42 @@ const loading = ref(false)
 const post = ref(null)
 const error = ref(null)
 const type = "posts"
-const upvote = post.downvotecount
-const downvote = ref(post.downvotecount)
+
+const upvote = computed(() => post.value.upvotecount)
+const downvote = computed(() => post.value.downvotecount)
+
+async function voting(vote) {
+  const upvote = post.value.upvotecount;
+  const downvote = post.value.downvotecount;
+
+  if(vote == 1){
+    post.value.upvotecount += 1;
+  } else {
+    post.value.downvotecount += 1;
+  }
+
+  try {
+    await votesubmit(vote, type, post.value.id);
+    } catch {
+    post.value.upvotecount = upvote;
+    post.value.downvotecount = downvote;
+  }
+}
 
 watch(() => route.params.id, fetchdata, { immediate: true })
-
 
 async function fetchdata(id) {
     error.value = post.value = null
     loading.value = true
 
     try {
-        getPost(id)
-        post.value = await getPost(id)  
+      const data = await getPost(id)
+      post.value = data
     } catch (err) {
-    error.value = err.toString()
-  } finally {
-    loading.value = false
-  }
+      error.value = err.toString()
+    } finally {
+      loading.value = false
+    }
 }
 
 const { errors } = storeToRefs(useVoteStore());

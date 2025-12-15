@@ -33,6 +33,7 @@ class VoteController extends Controller
                 'vote' => $voteValue,
             ]);
         }
+
         return response()->json(['message' => 'Vote recorded'], 200);
     }
 
@@ -60,6 +61,7 @@ class VoteController extends Controller
                 'vote' => $voteValue,
             ]);
         }
+
         return response()->json(['message' => 'Vote recorded'], 200);
     }
 }

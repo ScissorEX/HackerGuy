@@ -8,10 +8,9 @@ export const useVoteStore = defineStore('voteStore', {
         };
     },
     actions: {
-        async votesubmit(vote,type,route) {
+        async votesubmit(vote, type, route) {
             const token = localStorage.getItem('token');
-            console.log(vote);
-            
+
             const res = await fetch(`/api/${type}/${route}/vote`, {
                 method: 'post',
                 headers: {
@@ -28,9 +27,6 @@ export const useVoteStore = defineStore('voteStore', {
                 console.error('Response body:', text);
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
-
-            const data = await res.json();
-            return data;
         },
 
 

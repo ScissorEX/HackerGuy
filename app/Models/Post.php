@@ -42,6 +42,7 @@ class Post extends Model
 
     //votes count
     protected $appends = ['upvotecount', 'downvotecount', 'uservote'];
+    protected $hidden = ['votes'];
 
 
     public function getUpvotecountAttribute()
@@ -56,6 +57,9 @@ class Post extends Model
 
     public function getUservoteAttribute()
     {
-        return $this->votes->where('user_id', auth()->id())->first();
+    if (!auth()->check()) {
+        return null;
     }
+    return $this->votes->first()?->vote;
+}
 }
