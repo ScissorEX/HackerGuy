@@ -57,7 +57,7 @@ class Post extends Model
 
     public function getUservoteAttribute()
     {
-    if (!auth()->check()) {
+    if (!auth('sanctum')->check()) {
         return null;
     }
     return $this->votes->first()?->vote;
