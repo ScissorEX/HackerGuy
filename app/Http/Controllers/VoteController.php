@@ -45,7 +45,7 @@ class VoteController extends Controller
         $voteValue = $validated['vote'];
         $oldvote = Vote::where('user_id', auth()->id())
             ->where('voteable_id', $comment->id)
-            ->where('voteable_type', Post::class)
+            ->where('voteable_type', Comment::class)
             ->first();
 
         if ($oldvote) {

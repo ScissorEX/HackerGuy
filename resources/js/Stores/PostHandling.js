@@ -21,7 +21,6 @@ export const usePostStore = defineStore('postStore', {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             const data = await res.json();
-            console.log(data);
 
             return data;
         },

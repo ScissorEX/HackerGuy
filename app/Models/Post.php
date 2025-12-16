@@ -44,7 +44,6 @@ class Post extends Model
     protected $appends = ['upvotecount', 'downvotecount', 'uservote'];
     protected $hidden = ['votes'];
 
-
     public function getUpvotecountAttribute()
     {
         return $this->votes->where('vote', 1)->count();

@@ -1,33 +1,29 @@
 <template>
 
-  <div v-if="loading">Loading</div>
-
-  <div v-if="error" class="error">{{ error }}</div>
-
-  <div id="body" v-if="post">
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.content }}</p>
-    <p>{{ post.comments.length }} comments</p>
-
-    <h3>by {{ post.author.name }}</h3>
-    <h4>upvotes {{ upvote }} | {{ downvote }} downvotes</h4>
-    <button @click="voting(1)"> upvote</button>
-    <button @click="voting(-1)"> downvote</button>
-    <!-- <comment v-for="comment in post.comments" :key="comment.id" :comment="comment"></comment> -->
+  <div>
+    <div v-if="loading">Loading</div>
+    <div v-if="error" class="error">{{ error }}</div>
+    <div id="body" v-if="post">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.content }}</p>
+      <p>{{ post.comments.length }} comments</p>
+      <h3>by {{ post.author.name }}</h3>
+      <h4>upvotes {{ upvote }} | {{ downvote }} downvotes</h4>
+      <button @click="voting(1)"> upvote</button>
+      <button @click="voting(-1)"> downvote</button>
+      <h4>place to create comment</h4>
+      <comcomment v-for="comment in post.comments" :key="comment.id" :comment="comment"></comcomment>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { useVoteStore } from '../js/Stores/VoteHandling.js';
 import { storeToRefs } from 'pinia';
-
-
-//votesubmit(vote,type,route)
-
 import { ref, watch, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePostStore } from '../js/Stores/PostHandling.js'
-import comment from '../components/communitycomment.vue';
+import comcomment from '../components/communitycomment.vue';
 
 const postStore = usePostStore();
 const { getPost } = postStore;
@@ -43,23 +39,21 @@ const upvote = computed(() => post.value.upvotecount)
 const downvote = computed(() => post.value.downvotecount)
 
 async function voting(vote) {
-  const upvote = post.value.upvotecount;
-  const downvote = post.value.downvotecount;
-if(post.value.uservote != null){
-  if (vote == post.value.uservote) {
-    if (post.value.uservote == 1) {
-      post.value.upvotecount += -1;
-    } else {
+  if (post.value.uservote != null) {
+    if (vote == post.value.uservote) {
+      if (post.value.uservote == 1) {
+        post.value.upvotecount += -1;
+      } else {
+        post.value.downvotecount += -1;
+      }
+    } else if (vote == 1) {
+      post.value.upvotecount += 1;
       post.value.downvotecount += -1;
+    } else if (vote == -1) {
+      post.value.upvotecount += -1;
+      post.value.downvotecount += 1;
     }
-  } else if (vote == 1) {
-    post.value.upvotecount += 1;
-    post.value.downvotecount += -1;
-  } else if (vote == -1) {
-    post.value.upvotecount += -1;
-    post.value.downvotecount += 1;
-  } 
-}else {
+  } else {
     if (vote == 1) {
       post.value.upvotecount += 1;
     } else {

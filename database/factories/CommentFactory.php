@@ -28,7 +28,6 @@ class CommentFactory extends Factory
     {
         return [
             'post_id' => Post::factory(),
-            'title' => fake()->sentences(1, true),
             'content' => fake()->sentences(4, true),
             'user_id' => User::factory(),
             'published_at' => fake()->boolean(60) ? now()->subDays(fake()->numberBetween(0, 30)) : null,
