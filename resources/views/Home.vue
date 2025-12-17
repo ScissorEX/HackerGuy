@@ -8,7 +8,7 @@
                 <img
                     src="../components/images/icons/fingerprint-svgrepo-com.min.svg"
                     style="width: 75px; transform: rotate(10deg)" />human +
-                <img src="../components/images/icons/monkey-svgrepo-com.min.min.svg" style="width: 75px" />Chimp
+                <img src="../components/images/icons/monkey-svgrepo-com.svg" style="width: 75px" />Chimp
             </h1>
             <p>theres a text here lol</p>
             <div style="margin: 80px">
