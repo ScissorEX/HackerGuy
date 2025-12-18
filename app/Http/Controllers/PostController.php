@@ -21,7 +21,7 @@ class PostController extends Controller
             $post->load(['votes' => fn ($q) => $q->where('user_id', auth('sanctum')->id())]);
         }
 
-        return response()->json($post->load('author', 'comments.author'));
+        return response()->json($post->load('author', 'comments.author', 'comments.votes'));
     }
 
     public function store(Request $request)

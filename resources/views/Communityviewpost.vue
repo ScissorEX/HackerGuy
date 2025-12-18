@@ -11,7 +11,7 @@
 
       <div>
         <a @click="voting(1)">
-          <img :src=thumbup>
+          <img :src="thumbup">
           <p>{{ upvote }}</p>
         </a>
 
@@ -20,7 +20,7 @@
         </div>
 
         <a @click="voting(-1)">
-          <img :src=thumbdown>
+          <img :src="thumbdown">
         </a>
       </div>
 
@@ -156,6 +156,7 @@ watch([ratioupvote, ratiodownvote], () => {
   ratio = ((ratioupvote.value + ratiodownvote.value) === 0
     ? 0.5 : ratioupvote.value / (ratioupvote.value + ratiodownvote.value)) * 100 + '%';
 })
+console.log(ratio);
 
 const { errors } = storeToRefs(useVoteStore());
 const { votesubmit } = useVoteStore();
