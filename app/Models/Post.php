@@ -22,43 +22,48 @@ class Post extends Model
         });
     }
 
-    //relations
+    // relations
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
+
     public function votes()
     {
         return $this->morphMany(Vote::class, 'voteable');
     }
+
     public function ispublished()
     {
         return $this->published_at !== null && $this->published_at->isPast();
     }
 
-    //votes count
+    // votes count
     protected $appends = ['upvotecount', 'downvotecount', 'uservote'];
+
     protected $hidden = ['votes'];
 
     public function getUpvotecountAttribute()
     {
-        return $this->votes->where('vote', 1)->count();
+        return $this->votes()->where('vote', 1)->count();
     }
 
     public function getDownvotecountAttribute()
     {
-        return $this->votes->where('vote', -1)->count();
+        return $this->votes()->where('vote', -1)->count();
     }
 
     public function getUservoteAttribute()
     {
-    if (!auth('sanctum')->check()) {
-        return null;
+        if (!auth('sanctum')->check()) {
+            return null;
+        }
+
+        return $this->votes->first()?->vote;
     }
-    return $this->votes->first()?->vote;
-}
 }

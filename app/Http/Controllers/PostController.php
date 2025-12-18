@@ -17,7 +17,11 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return response()->json($post->load('author', 'comments.author', 'votes', 'comments.votes'));
+        if (auth('sanctum')->check()) {
+            $post->load(['votes' => fn ($q) => $q->where('user_id', auth('sanctum')->id())]);
+        }
+
+        return response()->json($post->load('author', 'comments.author'));
     }
 
     public function store(Request $request)
@@ -27,7 +31,7 @@ class PostController extends Controller
             'content' => 'required',
         ]);
         // ignore underfined error
-        $post = auth()->user()->posts()->create($validated);
+        $post = auth('sanctum')->user()->posts()->create($validated);
 
         return response()->json($post, 201);
     }

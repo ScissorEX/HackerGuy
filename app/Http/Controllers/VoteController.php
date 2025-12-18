@@ -15,7 +15,7 @@ class VoteController extends Controller
             'vote' => 'required|in:1,-1',
         ]);
         $voteValue = $validated['vote'];
-        $oldvote = Vote::where('user_id', auth()->id())
+        $oldvote = Vote::where('user_id', auth('sanctum')->id())
             ->where('voteable_id', $post->id)
             ->where('voteable_type', Post::class)
             ->first();
@@ -29,7 +29,7 @@ class VoteController extends Controller
             }
         } else {
             $post->votes()->create([
-                'user_id' => auth()->id(),
+                'user_id' => auth('sanctum')->id(),
                 'vote' => $voteValue,
             ]);
         }
@@ -43,7 +43,7 @@ class VoteController extends Controller
             'vote' => 'required|in:1,-1',
         ]);
         $voteValue = $validated['vote'];
-        $oldvote = Vote::where('user_id', auth()->id())
+        $oldvote = Vote::where('user_id', auth('sanctum')->id())
             ->where('voteable_id', $comment->id)
             ->where('voteable_type', Comment::class)
             ->first();
@@ -57,7 +57,7 @@ class VoteController extends Controller
             }
         } else {
             $comment->votes()->create([
-                'user_id' => auth()->id(),
+                'user_id' => auth('sanctum')->id(),
                 'vote' => $voteValue,
             ]);
         }

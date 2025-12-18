@@ -18,7 +18,7 @@ class CommentController extends Controller
 
         $comment = $post->comments()->create([
             'content' => $validated['content'],
-            'user_id' => auth()->id()
+            'user_id' => auth('sanctum')->id()
         ]);
 
         return response()->json($comment->load('author'), 201);
