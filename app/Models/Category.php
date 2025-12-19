@@ -14,3 +14,4 @@ class Category extends Model
         $this->hasMany(Post::class);
     }
 }
+
