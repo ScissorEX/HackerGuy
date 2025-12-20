@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
@@ -10,6 +10,14 @@ class Tag extends Model
         'name',
         'slug',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($tag) {
+            $tag->slug = Str::slug($tag->name);
+        });
+    }
 
     public function posts()
     {
