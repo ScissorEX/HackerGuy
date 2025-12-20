@@ -33,6 +33,14 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function categories(){
+        return $this->belongsTo(Category::class);
+    }
+
+    public function tags(){
+        return $this->belongsToMany(Tag::class);
+    }
+
     public function votes()
     {
         return $this->morphMany(Vote::class, 'voteable');

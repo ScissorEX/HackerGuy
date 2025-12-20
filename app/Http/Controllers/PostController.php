@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -27,11 +29,27 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'string|max:50',
         ]);
-        // ignore underfined error
+
         $post = auth('sanctum')->user()->posts()->create($validated);
+
+        if (isset($validated['tags'])) {
+            $tagIds = [];
+            foreach ($validated['tags'] as $tagName) {
+                $tag = Tag::firstOrCreate(
+                    ['name' => $tagName],
+                    ['slug' => Str::slug($tagName)]
+                );
+                $tagIds[] = $tag->id;
+            }
+
+            $post->tags()->sync($tagIds);
+        }
 
         return response()->json($post, 201);
     }
