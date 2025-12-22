@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -27,10 +28,24 @@ class DatabaseSeeder extends Seeder
         }
 
         $categoryId = Category::pluck('id')->toArray();
+        
+        $tags = ['Laravel', 'PHP', 'Web Development', 'Database', 'API', 'JavaScript', 'Vue.js', 'Design', 'Security'];
+        foreach ($tags as $tag) {
+            Tag::create(['name' => $tag, 'slug' => Str::slug($tag)]);
+        }
+        $tagIds = Tag::pluck('id')->toArray();
+        
         $users = User::factory(20)->create();
 
         foreach ($users as $user) {
-            Post::factory(2)->create(['user_id' => $user->id, 'category_id' => $categoryId[array_rand($categoryId)]]);
+            $posts = Post::factory(2)->create(['user_id' => $user->id, 'category_id' => $categoryId[array_rand($categoryId)]]);
+            foreach ($posts as $post) {
+                $randomTagCount = rand(1, min(3, count($tagIds)));
+                $shuffled = array_values($tagIds);
+                shuffle($shuffled);
+                $randomTags = array_slice($shuffled, 0, $randomTagCount);
+                $post->tags()->sync($randomTags);
+            }
         }
 
         // Gather all post ids to attach comments to

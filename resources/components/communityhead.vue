@@ -13,8 +13,6 @@
             <div>
                 <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
             </div>
-
-            <router-link to="/community/createpost" id="signupbutton" class="button">create post +</router-link>
         </div>
     </div>
 </template>
@@ -65,8 +63,7 @@
     line-height: 2rem;
 }
 
-#signupbutton,
-#demobutton {
+#signupbutton{
     padding: 7px 15px;
     border-radius: 7px;
     margin: 2px;
@@ -80,12 +77,6 @@
     background-color: #00e199;
     color: #072c09;
 }
-
-#demobutton {
-    background-color: #1f1f1f;
-    color: #d8d8d8;
-}
-
 #chimprankrouter {
     width: 120px;
     height: 50px;

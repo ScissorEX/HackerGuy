@@ -10,7 +10,8 @@
                 </div>
                 <div></div>
             </aside>
-            <div id="t">
+            <div id="postswindow">
+                
                 <router-view></router-view>
             </div>
         </div>
@@ -27,6 +28,7 @@ import communityhead from '../components/communityhead.vue';
     display: flex;
     flex-direction: column;
     background-color: cornflowerblue;
+    overflow: hidden;
 }
 
 #body {
@@ -41,10 +43,10 @@ import communityhead from '../components/communityhead.vue';
 
 #aside {
     background-color: aqua;
-    width: 25%;
+    min-width: 15%;
 }
 
-#t {
+#postswindow {
     background-color: white;
 }
 </style>
