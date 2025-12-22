@@ -18,7 +18,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = ['General'];
+        $categories = [
+            'General',
+        ];
+
         foreach ($categories as $category) {
             Category::create(['name' => $category, 'slug' => Str::slug($category)]);
         }
@@ -35,7 +38,7 @@ class DatabaseSeeder extends Seeder
 
         // For each user create 40 comments, each pointing to a random post
         foreach ($users as $user) {
-            for ($i = 0; $i < 20; $i++) {
+            for ($i = 0; $i < 12; $i++) {
                 Comment::factory()->create([
                     'user_id' => $user->id,
                     'post_id' => $postIds[array_rand($postIds)],

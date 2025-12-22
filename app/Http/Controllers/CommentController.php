@@ -31,11 +31,27 @@ class CommentController extends Controller
 
     public function update(Request $request, Comment $comment)
     {
-        //
+        if (auth('sanctum')->id() != $comment->user_id) {
+            return response()->json("unauthorized");
+        }
+
+        $validated = $request->validate([
+            'content' => 'required'
+        ]);
+
+        $comment->update($validated);
+
+        return response()->json($comment);
+
     }
 
     public function destroy(Comment $comment)
     {
-        //
+        if (auth('sanctum')->id() != $comment->user_id) {
+            return response()->json("unauthorized");
+        }
+
+        $comment->delete();
+        return response()->json('comment deleted');
     }
 }

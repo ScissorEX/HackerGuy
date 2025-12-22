@@ -31,12 +31,44 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'category' => 'required|exists:categories',
+            'tags' => 'nullable|array',
+            'tags.*' => 'string|max:30',
+        ]);
+
+        $post = auth('sanctum')->user()->posts()->create($validated);
+
+        $ids = [];
+        if (isset($validated['tags'])) {
+            foreach ($validated['tags'] as $thistag) {
+                $tag = Tag::firstOrCreate(
+                    ['name' => $thistag],
+                    ['slug' => Str::slug($thistag)]
+                );
+                $ids[] = $tag->id;
+            }
+
+            $post->tags()->sync($ids);
+        }
+
+        return response()->json($post);
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        if (auth('sanctum')->id() != $post->user_id) {
+            return response()->json("unauthorized");
+        }
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'string|max:50',
         ]);
 
-        $post = auth('sanctum')->user()->posts()->create($validated);
+        $post->update($validated);
 
         if (isset($validated['tags'])) {
             $tagIds = [];
@@ -51,16 +83,16 @@ class PostController extends Controller
             $post->tags()->sync($tagIds);
         }
 
-        return response()->json($post, 201);
+        return response()->json($post);
     }
 
-    public function update(Request $request, string $id)
+    public function destroy(Post $post)
     {
-        //
-    }
+        if (auth('sanctum')->id() != $post->user_id) {
+            return response()->json("unauthorized");
+        }
 
-    public function destroy(string $id)
-    {
-        //
+        $post->delete();
+        return response()->json('comment deleted');
     }
 }
