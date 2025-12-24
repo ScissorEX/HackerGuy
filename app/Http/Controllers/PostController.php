@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -19,11 +20,22 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
+        $post->load('author', 'category', 'tags');
+
         if (auth('sanctum')->check()) {
-            $post->load(['votes' => fn ($q) => $q->where('user_id', auth('sanctum')->id())]);
+            $post->load([
+                'votes' => fn ($a) => $a->where('user_id', auth('sanctum')->id()),
+                'comments' => fn ($b) => $b->with([
+                    'votes' => fn ($c) => $c->where('user_id', auth('sanctum')->id()),
+                ]),
+            ]);
+        } else {
+            $post->load('comments');
         }
 
-        return response()->json($post->load('author', 'comments.author', 'comments.votes'));
+        PostResource::withoutWrapping();
+
+        return new PostResource($post);
     }
 
     public function store(Request $request)
@@ -57,7 +69,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         if (auth('sanctum')->id() != $post->user_id) {
-            return response()->json("unauthorized");
+            return response()->json('unauthorized');
         }
 
         $validated = $request->validate([
@@ -89,10 +101,11 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if (auth('sanctum')->id() != $post->user_id) {
-            return response()->json("unauthorized");
+            return response()->json('unauthorized');
         }
 
         $post->delete();
+
         return response()->json('comment deleted');
     }
 }

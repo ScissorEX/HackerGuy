@@ -33,11 +33,13 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function categories(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function tags(){
+    public function tags()
+    {
         return $this->belongsToMany(Tag::class);
     }
 
@@ -48,13 +50,8 @@ class Post extends Model
 
     public function ispublished()
     {
-        return $this->published_at !== null && $this->published_at->isPast();
+        return $this->published_at != null && $this->published_at->isPast();
     }
-
-    // votes count
-    protected $appends = ['upvotecount', 'downvotecount', 'uservote'];
-
-    protected $hidden = ['votes'];
 
     public function getUpvotecountAttribute()
     {
@@ -68,7 +65,7 @@ class Post extends Model
 
     public function getUservoteAttribute()
     {
-        if (!auth('sanctum')->check()) {
+        if (! auth('sanctum')->check()) {
             return null;
         }
 

@@ -10,18 +10,19 @@ class PostResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-    'id' => $this->id,
-    'title' => $this->title,
-    'slug' => $this->slug,
-    'content' => $this->content,
-    'author' => $this->author->name,
-    'category' => $this->category->name,
-    'tags' => $this->tags->pluck('name'),
-    'upvotecount' => $this->upvotecount,
-    'downvotecount' => $this->downvotecount,
-    'uservote' => $this->uservote,
-    'created_at' => $this->created_at,
-    'updated_at' => $this->updated_at
-];
+            'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'content' => $this->content,
+            'author' => $this->author->name,
+            'category' => $this->category->name,
+            'tags' => $this->tags->pluck('name')->toArray(),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'upvote' => $this->upvotecount,
+            'downvote' => $this->downvotecount,
+            'uservote' => $this->uservote,
+            'created_at' => $this->created_at->format('M d, Y h:i A'),
+            'was_updated' => ($this->created_at != $this->updated_at),
+        ];
     }
 }
