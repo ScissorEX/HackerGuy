@@ -1,11 +1,13 @@
 <template>
     <div id="comment">
         <p>{{ comment.content }}</p>
-        <p>{{ comment.author.name }}</p>
+        <p>{{ comment.author }}</p>
+        <p>{{ comment.created_at }}</p>
+        <p>updated : {{ comment.was_updated }}</p>
         <div>
             <a @click="voting(1)">
                 <img :src="thumbup">
-                <p>{{ upvote }}</p>
+                <p>{{ localcounts.up }}</p>
             </a>
 
             <div id="voteratio">
@@ -29,97 +31,51 @@ const props = defineProps({
 
 import { useVoteStore } from '../js/Stores/VoteHandling.js';
 import { storeToRefs } from 'pinia';
-import { ref, watch, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import thumbupon from '../components/images/icons/thumb-up-ON.svg'
 import thumbupoff from '../components/images/icons/thumb-up-OFF.svg'
 import thumbdownon from '../components/images/icons/thumb-down-ON.svg'
 import thumbdownoff from '../components/images/icons/thumb-down-OFF.svg'
 
-const type = "comments"
-const upvote = computed(() => localUpvote.value)
-const thisuservote = computed(() => localUserVote.value)
-
-const thumbup = ref(thumbupoff)
-const thumbdown = ref(thumbdownoff)
-const localUpvote = ref(props.comment?.upvotecount ?? 0)
-const localDownvote = ref(props.comment?.downvotecount ?? 0)
-const localUserVote = ref(props.comment?.uservote ?? null)
+const localvote = ref(props.comment?.uservote ?? null)
+const localcounts = ref({
+    up: props.comment?.upvote ?? 0,
+    down: props.comment?.downvote ?? 0
+})
 
 async function voting(vote) {
-    const thisup = thumbup.value
-    const thisdown = thumbdown.value
-    const prevUpvote = localUpvote.value
-    const prevDownvote = localDownvote.value
-    const prevUserVote = localUserVote.value
+    const pastvote = localvote.value
+    const pastcount = { ...localcounts.value }
 
-    if (localUserVote.value != null) {
-        if (vote == localUserVote.value) {
-            if (localUserVote.value == 1) {
-                localUpvote.value -= 1;
-                thumbup.value = thumbupoff
-            } else {
-                localDownvote.value -= 1;
-                thumbdown.value = thumbdownoff
-            }
-            localUserVote.value = null
-        } else if (vote == 1) {
-            localUpvote.value += 1;
-            localDownvote.value -= 1;
-            localUserVote.value = 1
-            thumbup.value = thumbupon
-            thumbdown.value = thumbdownoff
-        } else if (vote == -1) {
-            localUpvote.value -= 1;
-            localDownvote.value += 1;
-            localUserVote.value = -1
-            thumbup.value = thumbupoff
-            thumbdown.value = thumbdownon
-        }
+    if (pastvote == vote) {
+        localvote.value = null
+        localcounts.value[vote == 1 ? 'up' : 'down']--
     } else {
-        if (vote == 1) {
-            localUpvote.value += 1;
-            localUserVote.value = 1
-            thumbup.value = thumbupon
-        } else if (vote == -1) {
-            localDownvote.value += 1;
-            localUserVote.value = -1
-            thumbdown.value = thumbdownon
+        if (pastvote != null) {
+            localcounts.value[pastvote == 1 ? 'up' : 'down']--
         }
+        localvote.value = vote
+        localcounts.value[vote == 1 ? 'up' : 'down']++
     }
 
     try {
-        await votesubmit(vote, type, props.comment.id);
+        await votesubmit(vote, "comments", props.comment.id)
     } catch {
-        localUpvote.value = prevUpvote;
-        localDownvote.value = prevDownvote;
-        localUserVote.value = prevUserVote;
-        thumbup.value = thisup
-        thumbdown.value = thisdown
+        //rollback
+        localvote.value = pastvote
+        localcounts.value = pastcount
     }
 }
 
-watch(thisuservote, (uvote) => {
-    if (uvote == 1) {
-        thumbup.value = thumbupon
-        thumbdown.value = thumbdownoff
-    } else if (uvote == -1) {
-        thumbdown.value = thumbdownon
-        thumbup.value = thumbupoff
-    } else {
-        thumbup.value = thumbupoff
-        thumbdown.value = thumbdownoff
-    }
+
+const thumbup = computed(() => localvote.value == 1 ? thumbupon : thumbupoff)
+const thumbdown = computed(() => localvote.value == -1 ? thumbdownon : thumbdownoff)
+const ratio = computed(() => {
+    const { up, down } = localcounts.value
+    const total = up + down
+    return total == 0 ? '50%' : `${(up / total) * 100}%`
 })
 
-let ratio = ref("50%")
-const ratioupvote = computed(() => localUpvote.value)
-const ratiodownvote = computed(() => localDownvote.value)
-
-
-watch([ratioupvote, ratiodownvote], () => {
-    ratio = ((ratioupvote.value + ratiodownvote.value) === 0
-        ? 0.5 : ratioupvote.value / (ratioupvote.value + ratiodownvote.value)) * 100 + '%';
-})
 
 const { errors } = storeToRefs(useVoteStore());
 const { votesubmit } = useVoteStore();
@@ -146,6 +102,6 @@ onMounted(() => (errors.value = {}));
     background-color: rgb(204, 51, 31);
     border-radius: 3px 3px 0 0;
 
-    height: v-bind(ratio);
+    height: v-bind('ratio');
 }
 </style>

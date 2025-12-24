@@ -42,7 +42,7 @@ router.beforeEach(async (to, from) => {
   }
 
   if (!authStore.user && to.meta.auth) {
-    return { name: "login" };
+    return { name: "signup" };
   }
 });
 

@@ -5,14 +5,18 @@
     <div v-if="error" class="error">{{ error }}</div>
     <div id="body" v-if="post">
       <h2>{{ post.title }}</h2>
+      <p v-for="tag in post.tags">{{ tag }}</p>
+      <h4>{{ post.category }}</h4>
       <p>{{ post.content }}</p>
       <p>{{ post.comments.length }} comments</p>
-      <h3>by {{ post.author.name }}</h3>
+      <h3>by {{ post.author }}</h3>
+      <p>{{ post.created_at }}</p>
+      <p>updated : {{ post.was_updated }}</p>
 
       <div>
         <a @click="voting(1)">
           <img :src="thumbup">
-          <p>{{ upvote }}</p>
+          <p>{{ localcounts.up }}</p>
         </a>
 
         <div id="voteratio">
@@ -24,7 +28,7 @@
         </a>
       </div>
 
-      <form @submit.prevent="commentsubmit(post.id, commentdata)">
+      <form @submit="commentsubmit(post.id, commentdata)">
         <input placeholder="comment" v-model="commentdata.content">
         <button>submit</button>
       </form>
@@ -62,60 +66,32 @@ const route = useRoute()
 const loading = ref(false)
 const post = ref(null)
 const error = ref(null)
-const type = "posts"
-const upvote = computed(() => post.value?.upvotecount ?? 0)
-const downvote = computed(() => post.value?.downvotecount ?? 0)
-const thisuservote = computed(() => post.value?.uservote ?? null)
-const thumbup = ref(thumbupoff)
-const thumbdown = ref(thumbdownoff)
+
+const localvote = ref(null)
+const localcounts = ref({ up: 0, down: 0 })
 
 
-//optimistic voting
 async function voting(vote) {
-  const thisup = thumbup.value
-  const thisdown = thumbdown.value
-  if (post.value.uservote != null) {
-    if (vote == post.value.uservote) {
-      if (post.value.uservote == 1) {
-        post.value.upvotecount += -1;
-        thumbup.value = thumbupoff
-      } else {
-        post.value.downvotecount += -1;
-        thumbdown.value = thumbdownoff
-      }
-      post.value.uservote = null;
-    } else if (vote == 1) {
-      post.value.upvotecount += 1;
-      post.value.downvotecount += -1;
-      post.value.uservote = 1;
-      thumbup.value = thumbupon
-      thumbdown.value = thumbdownoff
-    } else if (vote == -1) {
-      post.value.upvotecount += -1;
-      post.value.downvotecount += 1;
-      post.value.uservote = -1;
-      thumbup.value = thumbupoff
-      thumbdown.value = thumbdownon
-    }
+  const pastvote = localvote.value
+  const pastcount = { ...localcounts.value }
+
+  if (pastvote == vote) {
+    localvote.value = null
+    localcounts.value[vote == 1 ? 'up' : 'down']--
   } else {
-    if (vote == 1) {
-      post.value.upvotecount += 1;
-      post.value.uservote = 1;
-      thumbup.value = thumbupon
-    } else if (vote == -1) {
-      post.value.downvotecount += 1;
-      post.value.uservote = -1
-      thumbdown.value = thumbdownon
+    if (pastvote != null) {
+      localcounts.value[pastvote == 1 ? 'up' : 'down']--
     }
+    localvote.value = vote
+    localcounts.value[vote == 1 ? 'up' : 'down']++
   }
 
   try {
-    await votesubmit(vote, type, post.value.id);
+    await votesubmit(vote, "posts", post.value.id)
   } catch {
-    post.value.upvotecount = upvote.value;
-    post.value.downvotecount = downvote.value;
-    thumbup.value = thisup
-    thumbdown.value = thisdown
+    //rollback
+    localvote.value = pastvote
+    localcounts.value = pastcount
   }
 }
 
@@ -130,33 +106,24 @@ async function fetchdata(id) {
   try {
     const data = await getPost(id)
     post.value = data
-  } catch (err) {
+     localvote.value = data.uservote ?? null
+    localcounts.value = {
+      up: data.upvote ?? 0,
+      down: data.downvote ?? 0
+  }} catch (err) {
     error.value = err.toString()
   } finally {
     loading.value = false
   }
 }
 
-watch(thisuservote, (uvote) => {
-  if (uvote == 1) {
-    thumbup.value = thumbupon
-    thumbdown.value = thumbdownoff
-  } else if (uvote == -1) {
-    thumbdown.value = thumbdownon
-    thumbup.value = thumbupoff
-  } else {
-    thumbup.value = thumbupoff
-    thumbdown.value = thumbdownoff
-  }
+const thumbup = computed(() => localvote.value == 1 ? thumbupon : thumbupoff)
+const thumbdown = computed(() => localvote.value == -1 ? thumbdownon : thumbdownoff)
+const ratio = computed(() => {
+    const { up, down } = localcounts.value
+    const total = up + down
+    return total == 0 ? '50%' : `${(up / total) * 100}%`
 })
-let ratio = ref()
-const ratioupvote = computed(() => post.value?.upvotecount ?? null)
-const ratiodownvote = computed(() => post.value?.downvotecount ?? null)
-watch([ratioupvote, ratiodownvote], () => {
-  ratio = ((ratioupvote.value + ratiodownvote.value) === 0
-    ? 0.5 : ratioupvote.value / (ratioupvote.value + ratiodownvote.value)) * 100 + '%';
-})
-console.log(ratio);
 
 const { errors } = storeToRefs(useVoteStore());
 const { votesubmit } = useVoteStore();
@@ -179,6 +146,6 @@ onMounted(() => (errors.value = {}));
   background-color: rgb(204, 51, 31);
   border-radius: 3px 3px 0 0;
 
-  height: v-bind(ratio);
+    height: v-bind('ratio');
 }
 </style>
