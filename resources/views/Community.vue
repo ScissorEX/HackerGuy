@@ -8,10 +8,9 @@
                         <img alt="house" src="../components/images/icons/home.svg" />
                         Home</router-link>
                 </div>
-                <div></div>
             </aside>
             <div id="postswindow">
-                
+
                 <router-view></router-view>
             </div>
         </div>
@@ -28,7 +27,7 @@ import communityhead from '../components/communityhead.vue';
     display: flex;
     flex-direction: column;
     background-color: cornflowerblue;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 #body {
