@@ -13,11 +13,22 @@
             <div>
                 <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
             </div>
+            <div id="avatar" @click="dropdownmenu = !dropdownmenu">
+                <img src="/resources/components/images/icons/avatar.svg" style="width: 35px;">
+            </div>
+            <div v-if="dropdownmenu" id="dropdownmenu">
+                    hello
+                </div>
         </div>
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+
+const dropdownmenu = ref(true);
+
+</script>
 
 <style scoped>
 #biggestheader {
@@ -94,5 +105,17 @@
     right: 7px;
     height: 30px;
     margin-top: 7px;
+}
+#avatar{
+    background-color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+#dropdownmenu{
+    position: relative;
+    top: 37px;
+
+    background-color: white;
 }
 </style>

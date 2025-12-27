@@ -1,19 +1,21 @@
 <template>
-    <form @submit.prevent="formsubmit('login', formdata)" id="formdiv">
-        <div id="formin">
-            <label>type your email adress</label>
-            <input type="text" name="email" v-model="formdata.email" class="textin" />
-        </div>
-
-        <div id="formin">
-            <label>type your password</label>
-            <input type="password" name="password" v-model="formdata.password" class="textin" />
-        </div>
-
-        <div>
-            <button type="submit" id="buttonsub">Sign in</button>
-        </div>
-    </form>
+    <div>
+        <form @submit.prevent="formsubmit('login', formdata)" id="formdiv">
+            <div id="formin">
+                <label>type your email adress</label>
+                <input type="text" name="email" v-model="formdata.email" class="textin" />
+            </div>
+        
+            <div id="formin">
+                <label>type your password</label>
+                <input type="password" name="password" v-model="formdata.password" class="textin" />
+            </div>
+        
+            <div>
+                <button type="submit" id="buttonsub">Sign in</button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script setup>
