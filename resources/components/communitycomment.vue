@@ -31,7 +31,7 @@ const props = defineProps({
 
 import { useVoteStore } from '../js/Stores/VoteHandling.js';
 import { storeToRefs } from 'pinia';
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import thumbupon from '../components/images/icons/thumb-up-ON.svg'
 import thumbupoff from '../components/images/icons/thumb-up-OFF.svg'
 import thumbdownon from '../components/images/icons/thumb-down-ON.svg'

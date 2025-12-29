@@ -6,16 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
-    protected $fillable = ['user_id', 'voteable_type', 'voteable_id', 'vote', 'published_at'];
-
-    protected $casts = ['published_at' => 'datetime'];
+protected $fillable = ['user_id', 'voteable_type', 'voteable_id', 'vote'];
 
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function votable()
+    public function voteable()
     {
         return $this->morphTo();
     }

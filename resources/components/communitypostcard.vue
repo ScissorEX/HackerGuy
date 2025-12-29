@@ -3,6 +3,9 @@
         <div id="postsfilterandthelikes">
             <router-link to="/community/createpost" id="createbutton" class="button">create post
                 +</router-link>
+                <div>
+                    
+                </div>
         </div>
         <div v-for="post in posts" :key="post.id">
             <div id="separator"></div>

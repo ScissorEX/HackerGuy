@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('authStore', {
         async formsubmit(route, formdata) {
             const token = document.querySelector('meta[name="csrf"]').content;
 
-            const res = await fetch(`api/${route}`, {
+            const res = await fetch(`/api/${route}`, {
                 method: 'post',
                 headers: {
                     'X-CSRF-TOKEN': token,
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore('authStore', {
         },
 
         async logout() {
-            const res = await fetch('api/logout', {
+            const res = await fetch('/api/logout', {
                 method: 'post',
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('token')}`,

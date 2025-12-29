@@ -20,18 +20,17 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        $post->load('author', 'category', 'tags');
+        $post->load('author:id,name', 'category:id,name', 'tags:id,name');
 
-        if (auth('sanctum')->check()) {
-            $post->load([
-                'votes' => fn ($a) => $a->where('user_id', auth('sanctum')->id()),
-                'comments' => fn ($b) => $b->with([
-                    'votes' => fn ($c) => $c->where('user_id', auth('sanctum')->id()),
-                ]),
-            ]);
-        } else {
-            $post->load('comments');
-        }
+        $post->load(['comments' => fn ($q) => $q->with(['author:id,name'])->withcount([
+            'votes as upvote' => fn ($q2) => $q2->where('vote', 1),
+            'votes as downvote' => fn ($q2) => $q2->where('vote', -1),
+        ])]);
+
+        $post->loadCount([
+            'votes as upvote' => fn ($q) => $q->where('vote', 1),
+            'votes as downvote' => fn ($q) => $q->where('vote', -1),
+        ]);
 
         PostResource::withoutWrapping();
 
@@ -43,7 +42,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category' => 'required|exists:categories',
+            'category' => 'required|exists:categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'string|max:30',
         ]);

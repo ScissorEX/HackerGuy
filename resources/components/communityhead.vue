@@ -113,9 +113,9 @@ const dropdownmenu = ref(true);
     border-radius: 50%;
 }
 #dropdownmenu{
-    position: relative;
-    top: 37px;
-
-    background-color: white;
+    position: fixed;
+    top: 50px;
+    left: 70%;
+    background-color: rgb(252, 200, 200);
 }
 </style>

@@ -10,7 +10,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content', 'slug', 'user_id', 'published_at', 'category_id'];
+    protected $fillable = ['title', 'content', 'slug', 'user_id', 'category_id'];
 
     protected $casts = ['published_at' => 'datetime'];
 
@@ -51,24 +51,5 @@ class Post extends Model
     public function ispublished()
     {
         return $this->published_at != null && $this->published_at->isPast();
-    }
-
-    public function getUpvotecountAttribute()
-    {
-        return $this->votes()->where('vote', 1)->count();
-    }
-
-    public function getDownvotecountAttribute()
-    {
-        return $this->votes()->where('vote', -1)->count();
-    }
-
-    public function getUservoteAttribute()
-    {
-        if (! auth('sanctum')->check()) {
-            return null;
-        }
-
-        return $this->votes->first()?->vote;
     }
 }
