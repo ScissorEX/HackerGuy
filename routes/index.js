@@ -19,7 +19,7 @@ const routes = [
   { path: '/signup', name: "signup", component: () => import('../resources/views/Signup.vue') },
   {
     path: '/community', name: "community", component: () => import('../resources/views/Community.vue'), children: [
-      { path: '', name: "allposts", component: () => import('../resources/components/communitypostcard.vue') },
+      { path: '', name: "allposts", component: () => import('../resources/components/communitypostcard.vue')},
       { path: 'createpost', name: "createpost", component: () => import('../resources/views/communitycreatepost.vue') },
       { path: ':id/:slug', name: "viewpost", component: () => import('../resources/views/Communityviewpost.vue') }
     ]
@@ -42,7 +42,7 @@ router.beforeEach(async (to, from) => {
   }
 
   if (!authStore.user && to.meta.auth) {
-    return { name: "login" };
+    return { name: "signup" };
   }
 });
 
