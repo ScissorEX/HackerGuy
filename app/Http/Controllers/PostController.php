@@ -19,23 +19,36 @@ class PostController extends Controller
     }
 
     public function show(Post $post)
-    {
-        $post->load('author:id,name', 'category:id,name', 'tags:id,name');
+{
+    $post->load('author:id,name', 'category:id,name', 'tags:id,name');
 
-        $post->load(['comments' => fn ($q) => $q->with(['author:id,name'])->withcount([
-            'votes as upvote' => fn ($q2) => $q2->where('vote', 1),
-            'votes as downvote' => fn ($q2) => $q2->where('vote', -1),
-        ])]);
+    $post->load(['comments' => fn ($q) => $q->with(['author:id,name'])->withcount([
+        'votes as upvote' => fn ($q2) => $q2->where('vote', 1),
+        'votes as downvote' => fn ($q2) => $q2->where('vote', -1),
+    ])]);
 
-        $post->loadCount([
-            'votes as upvote' => fn ($q) => $q->where('vote', 1),
-            'votes as downvote' => fn ($q) => $q->where('vote', -1),
-        ]);
-
-        PostResource::withoutWrapping();
-
-        return new PostResource($post);
+    $post->loadCount([
+        'votes as upvote' => fn ($q) => $q->where('vote', 1),
+        'votes as downvote' => fn ($q) => $q->where('vote', -1),
+    ]);
+    
+    if (auth('sanctum')->check()) {
+        $id = auth('sanctum')->id();
+        $post->uservote = $post->votes()->where('user_id', $id)->value('vote');
+        
+        foreach ($post->comments as $comment) {
+            $comment->uservote = $comment->votes()->where('user_id', $id)->value('vote');
+        }
+    } else {
+        $post->uservote = null;
+        foreach ($post->comments as $comment) {
+            $comment->uservote = null;
+        }
     }
+
+    PostResource::withoutWrapping();
+    return new PostResource($post);
+}
 
     public function store(Request $request)
     {

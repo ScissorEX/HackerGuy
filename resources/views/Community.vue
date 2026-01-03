@@ -47,5 +47,6 @@ import communityhead from '../components/communityhead.vue';
 
 #postswindow {
     background-color: white;
+    width: 100%;
 }
 </style>

@@ -27,15 +27,12 @@
         </div>
     </div>
     <div id="cookiemonster" class="blackbgc">
-        hello
+        accept the cookie
         <div style="display: flex">
             <div>
                 <button id="nocookie" class="button">Decline</button>
+                <input type="button" value="Accept" id="acceptcookie" class="button" @click="cookie()" />
             </div>
-
-            <form method="post" action="cookie">
-                <input type="button" value="Accept" id="acceptcookie" class="button" @submit.prevent />
-            </form>
         </div>
     </div>
 </template>
@@ -57,9 +54,13 @@ const preloadpricing = () => {
 };
 
 let show = ref(true);
-/*setInterval(() => {
-        show.value = !show.value;
-    }, 530);*/
+
+function cookie() {
+    console.log(document.cookie.match())
+    
+    document.cookie = "random number" + "=" + Math.floor(Math.random()*100) + ";";
+
+}
 </script>
 
 <style scoped>

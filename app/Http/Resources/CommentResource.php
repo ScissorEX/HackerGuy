@@ -13,10 +13,10 @@ class CommentResource extends JsonResource
         'id' => $this->id,
         'content' => $this->content,
         'author' => $this->author->name,
-        'upvote' => $this->upvote ?? 0,
-        'downvote' => $this->downvote ?? 0,
-        'uservote' => $this->uservote ?? null,
-        'created_at' => $this->created_at->format('M d, Y h:i A'),
+        'upvote' => $this->upvote,
+        'downvote' => $this->downvote,
+        'uservote' => $this->uservote,
+        'created_since' => $this->created_at->diffForHumans(),
         'was_updated' => $this->created_at != $this->updated_at,
     ];
 }
