@@ -1,17 +1,19 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Support\Str;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
-     protected $fillable = [
+    protected $fillable = [
         'name',
-        'slug'
+        'slug',
     ];
+
     public $timestamps = false;
-    
+
     protected static function boot()
     {
         parent::boot();
@@ -19,9 +21,9 @@ class Category extends Model
             $tag->slug = Str::slug($tag->name);
         });
     }
-    
-    public function posts(){
+
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 }
-

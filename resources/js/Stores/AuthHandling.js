@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
-export const useAuthStore = defineStore('authStore', {
+export const useAuthStore = defineStore("authStore", {
     state: () => {
         return {
             user: null,
@@ -9,10 +9,10 @@ export const useAuthStore = defineStore('authStore', {
     },
     actions: {
         async getUser() {
-            if (localStorage.getItem('token')) {
-                const res = await fetch('/api/user', {
+            if (localStorage.getItem("token")) {
+                const res = await fetch("/api/user", {
                     headers: {
-                        authorization: `Bearer ${localStorage.getItem('token')}`,
+                        authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
                 });
                 const data = await res.json();
@@ -21,14 +21,11 @@ export const useAuthStore = defineStore('authStore', {
                 }
             }
         },
-        async formsubmit(route, formdata) {
-            const token = document.querySelector('meta[name="csrf"]').content;
-
+        async logsubmit(route, formdata) {
             const res = await fetch(`/api/${route}`, {
-                method: 'post',
+                method: "post",
                 headers: {
-                    'X-CSRF-TOKEN': token,
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formdata),
             });
@@ -38,17 +35,17 @@ export const useAuthStore = defineStore('authStore', {
                 this.errors = data.errors;
             } else {
                 this.errors = {};
-                localStorage.setItem('token', data.token);
+                localStorage.setItem("token", data.token);
                 this.user = data.user;
-                this.router.push({ name: 'home' });
+                this.router.push({ name: "home" });
             }
         },
 
         async logout() {
-            const res = await fetch('/api/logout', {
-                method: 'post',
+            const res = await fetch("/api/logout", {
+                method: "post",
                 headers: {
-                    authorization: `Bearer ${localStorage.getItem('token')}`,
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             });
 
@@ -57,8 +54,8 @@ export const useAuthStore = defineStore('authStore', {
             if (res.ok) {
                 this.user = null;
                 this.errors = {};
-                localStorage.removeItem('token');
-                router.push({ name: 'home' });
+                localStorage.removeItem("token");
+                router.push({ name: "home" });
             }
         },
     },

@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
-export const usePostStore = defineStore('postStore', {
+export const usePostStore = defineStore("postStore", {
     state: () => {
         return {
             user: null,
@@ -15,38 +15,44 @@ export const usePostStore = defineStore('postStore', {
             return data;
         },
         async getPost(post) {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem("token");
 
             const res = await fetch(`/api/posts/${post}`, {
-                headers: { 'Authorization': `Bearer ${token}` },
+                headers: { Authorization: `Bearer ${token}` },
             });
             const data = await res.json();
 
             return data;
         },
         async postsubmit(formdata) {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem("token");
 
-            const res = await fetch('/api/posts', {
-                method: 'post',
+            const res = await fetch("/api/posts", {
+                method: "post",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(formdata),
             });
 
             if (!res.ok) {
-                console.error('Response status:', res.status);
+                console.error("Response status:", res.status);
                 const text = await res.text();
-                console.error('Response body:', text);
+                console.error("Response body:", text);
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
 
             const data = await res.json();
             return data;
         },
-
+        async searchpost(search) {
+            const res = await fetch(`/api/search?search=${search}`);
+            const data = await res.json();
+            console.log(data);
+            
+            return data;
+        },
     },
 });

@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Support\Str;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Tag extends Model
 {
     public $timestamps = false;
-    
+
     protected $fillable = [
         'name',
         'slug',

@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
-export const useVoteStore = defineStore('voteStore', {
+export const useVoteStore = defineStore("voteStore", {
     state: () => {
         return {
             user: null,
@@ -9,24 +9,24 @@ export const useVoteStore = defineStore('voteStore', {
     },
     actions: {
         async votesubmit(vote, type, route) {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem("token");
 
             const res = await fetch(`/api/${type}/${route}/vote`, {
-                method: 'post',
+                method: "post",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
                 body: `{"vote" : ${vote}}`,
             });
 
             if (!res.ok) {
-                console.error('Response status:', res.status);
+                console.error("Response status:", res.status);
                 const text = await res.text();
-                console.error('Response body:', text);
+                console.error("Response body:", text);
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
         },
-    }
-})
+    },
+});

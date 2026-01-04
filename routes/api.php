@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\VoteController;
@@ -27,3 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
 Route::get('posts/{post}/comments', [CommentController::class, 'index']);
+Route::get('category',[CategoryController::class,'index']);
+Route::get('category/{category}',[CategoryController::class,'show']);
+Route::get('search', [PostController::class, 'search']);

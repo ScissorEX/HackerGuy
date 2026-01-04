@@ -1,38 +1,80 @@
 <template>
     <div id="homediv1">
         <div id="humanchimpdiv">
-            <h1 style="background-image: radial-gradient(circle, #484848, #2b2b2b 50%)">The future</h1>
-            <h1 style="background-image: radial-gradient(circle, #4c4c4c, #1f1f1f 70%)">of development</h1>
-            <h1 style="background-image: radial-gradient(circle, #ffffff 50%, #5b5b5b)">
+            <h1
+                style="
+                    background-image: radial-gradient(
+                        circle,
+                        #484848,
+                        #2b2b2b 50%
+                    );
+                "
+            >
+                The future
+            </h1>
+            <h1
+                style="
+                    background-image: radial-gradient(
+                        circle,
+                        #4c4c4c,
+                        #1f1f1f 70%
+                    );
+                "
+            >
+                of development
+            </h1>
+            <h1
+                style="
+                    background-image: radial-gradient(
+                        circle,
+                        #ffffff 50%,
+                        #5b5b5b
+                    );
+                "
+            >
                 is
                 <img
                     src="../components/images/icons/fingerprint-svgrepo-com.min.svg"
-                    style="width: 75px; transform: rotate(10deg)" />human +
-                <img src="../components/images/icons/monkey-svgrepo-com.svg" style="width: 75px" />Chimp
+                    style="width: 75px; transform: rotate(10deg)"
+                />human +
+                <img
+                    src="../components/images/icons/monkey-svgrepo-com.svg"
+                    style="width: 75px"
+                />Chimp
             </h1>
             <p>theres a text here lol</p>
             <div style="margin: 80px">
-                <router-link to="/community" id="communityjoin" class="button"> Join The Community</router-link>
+                <router-link to="/community" id="communityjoin" class="button">
+                    Join The Community</router-link
+                >
             </div>
         </div>
     </div>
     <div id="homediv2" class="whitebgc">
         <div id="adventurediv">
             <h2>Choose Your <span style="color: #24ae65">Adventure</span></h2>
-            <p>We build elite simian teams for companies and enhance candidates primate skills and job prospects</p>
+            <p>
+                We build elite simian teams for companies and enhance candidates
+                primate skills and job prospects
+            </p>
         </div>
         <div id="twocardatonce" class="blackbgc">
             <div id="fordevcard">
                 <div>
                     <h3>For developers</h3>
-                    <p>ChimpRank helps you hone your primal skills and become Ape-Ready</p>
+                    <p>
+                        ChimpRank helps you hone your primal skills and become
+                        Ape-Ready
+                    </p>
                 </div>
                 <ul>
                     <li>Track your skill proficiency</li>
                     <li>Prepare for technical interviews</li>
                     <li>Learn the latest ape skills</li>
                 </ul>
-                <a id="explorecommunitybutton" class="whitebgc">Explore ChimpRank Community</a>
+                <a id="explorecommunitybutton" class="whitebgc"
+                    >Explore ChimpRank Community</a
+                >
             </div>
             <div id="forbusinesscard">
                 <div>

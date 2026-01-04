@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
-protected $fillable = ['user_id', 'voteable_type', 'voteable_id', 'vote'];
+    protected $fillable = ['user_id', 'voteable_type', 'voteable_id', 'vote'];
 
     public function author()
     {

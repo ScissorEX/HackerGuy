@@ -3,22 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-
     public function store(Request $request, Post $post)
     {
         $validated = $request->validate([
-            'content' => 'required'
+            'content' => 'required',
         ]);
 
         $comment = $post->comments()->create([
             'content' => $validated['content'],
-            'user_id' => auth('sanctum')->id()
+            'user_id' => auth('sanctum')->id(),
         ]);
 
         return response()->json($comment->load('author'), 201);
@@ -32,11 +30,11 @@ class CommentController extends Controller
     public function update(Request $request, Comment $comment)
     {
         if (auth('sanctum')->id() != $comment->user_id) {
-            return response()->json("unauthorized");
+            return response()->json('unauthorized');
         }
 
         $validated = $request->validate([
-            'content' => 'required'
+            'content' => 'required',
         ]);
 
         $comment->update($validated);
@@ -48,10 +46,11 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         if (auth('sanctum')->id() != $comment->user_id) {
-            return response()->json("unauthorized");
+            return response()->json('unauthorized');
         }
 
         $comment->delete();
+
         return response()->json('comment deleted');
     }
 }

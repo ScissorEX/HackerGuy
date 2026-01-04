@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
-export const useCommentStore = defineStore('commentStore', {
+export const useCommentStore = defineStore("commentStore", {
     state: () => {
         return {
             user: null,
@@ -8,29 +8,27 @@ export const useCommentStore = defineStore('commentStore', {
         };
     },
     actions: {
-        async commentsubmit(post,content) {
-            const token = localStorage.getItem('token');
+        async commentsubmit(post, content) {
+            const token = localStorage.getItem("token");
 
             const res = await fetch(`/api/posts/${post}/comments`, {
-                method: 'post',
+                method: "post",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(content),
             });
-            
+
             if (!res.ok) {
-                console.error('Response status:', res.status);
+                console.error("Response status:", res.status);
                 const text = await res.text();
-                console.error('Response body:', text);
+                console.error("Response body:", text);
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
             const data = await res.json();
             return data;
         },
-        
-            
-    }
-})
+    },
+});

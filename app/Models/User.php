@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -30,10 +30,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function posts() {
+
+    public function posts()
+    {
         return $this->hasMany(Post::class);
-}
-public function comment() {
+    }
+
+    public function comment()
+    {
         return $this->hasMany(Comment::class);
-}
+    }
 }

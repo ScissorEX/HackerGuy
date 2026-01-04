@@ -5,12 +5,15 @@
             <aside id="aside">
                 <div>
                     <router-link to="/community" class="button">
-                        <img alt="house" src="../components/images/icons/home.svg" />
-                        Home</router-link>
+                        <img
+                            alt="house"
+                            src="../components/images/icons/home.svg"
+                        />
+                        Home
+                    </router-link>
                 </div>
             </aside>
             <div id="postswindow">
-
                 <router-view></router-view>
             </div>
         </div>
@@ -18,7 +21,7 @@
 </template>
 
 <script setup>
-import communityhead from '../components/communityhead.vue';
+import communityhead from "../components/communityhead.vue";
 </script>
 
 <style scoped>
@@ -26,8 +29,8 @@ import communityhead from '../components/communityhead.vue';
     height: 100dvh;
     display: flex;
     flex-direction: column;
-    background-color: cornflowerblue;
-    overflow: scroll;
+    background-color: oklch(0.4 0.1 210);
+    overflow: hidden;
 }
 
 #body {
@@ -35,18 +38,22 @@ import communityhead from '../components/communityhead.vue';
     width: 100%;
     background: none;
     display: flex;
-    justify-content: space-between;
+    flex: 1;
     margin: 0 auto;
-    height: 100%;
+    min-height: 0;
 }
 
 #aside {
-    background-color: aqua;
+    background-color: oklch(0.6 0.1 210);
     min-width: 15%;
+    flex-shrink: 0;
+    overflow-y: auto;
 }
 
 #postswindow {
     background-color: white;
-    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
 }
 </style>

@@ -1,8 +1,12 @@
 <template>
     <div id="content">
         <div id="postsfilterandthelikes">
-            <router-link to="/community/createpost" id="createbutton" class="button">create post
-                +</router-link>
+            <router-link
+                to="/community/createpost"
+                id="createbutton"
+                class="button"
+                >create post +</router-link
+            >
         </div>
         <div v-for="post in posts" :key="post.id">
             <div id="separator"></div>
@@ -16,18 +20,20 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import { usePostStore } from '../js/Stores/PostHandling';
-import { onMounted, ref } from 'vue';
+import { useRouter } from "vue-router";
+import { usePostStore } from "../js/Stores/PostHandling";
+import { onMounted, ref } from "vue";
 
 const { getListPosts } = usePostStore();
 const posts = ref([]);
 
-onMounted(async () => { posts.value = await getListPosts() });
+onMounted(async () => {
+    posts.value = await getListPosts();
+});
 
 const router = useRouter();
 function showpost(post) {
-    router.push({ name: "viewpost", params: { id: post.id, slug: post.slug } })
+    router.push({ name: "viewpost", params: { id: post.id, slug: post.slug } });
 }
 </script>
 
@@ -56,7 +62,8 @@ function showpost(post) {
 }
 
 #postsfilterandthelikes {
-    height: 20px;
+    height: 70px;
+    align-content: center;
 }
 
 #createbutton {

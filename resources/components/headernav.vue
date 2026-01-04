@@ -3,27 +3,56 @@
         <div id="headleftside">
             <router-link to="/" id="chimprankrouter" class="button">
                 <p id="chimprank">ChimpRank</p>
-                <img v-show="show" src="./images/icons/monkey.svg" alt="icon" id="chimpranklogo" />
+                <img
+                    v-show="show"
+                    src="./images/icons/monkey.svg"
+                    alt="icon"
+                    id="chimpranklogo"
+                />
             </router-link>
 
             <div id="headnavlink">
-                <router-link to="/products" id="headlink" class="button"
-                    @mouseenter="preloadproducts">Products</router-link>
+                <router-link
+                    to="/products"
+                    id="headlink"
+                    class="button"
+                    @mouseenter="preloadproducts"
+                    >Products</router-link
+                >
 
-                <router-link to="/solutions" id="headlink" class="button"
-                    @mouseenter="preloadsolutions">Solutions</router-link>
+                <router-link
+                    to="/solutions"
+                    id="headlink"
+                    class="button"
+                    @mouseenter="preloadsolutions"
+                    >Solutions</router-link
+                >
 
-                <router-link to="/resources" id="headlink" class="button"
-                    @mouseenter="preloadresources">Resources</router-link>
+                <router-link
+                    to="/resources"
+                    id="headlink"
+                    class="button"
+                    @mouseenter="preloadresources"
+                    >Resources</router-link
+                >
 
-                <router-link to="/pricing" id="headlink" class="button"
-                    @mouseenter="preloadpricing">Pricing</router-link>
+                <router-link
+                    to="/pricing"
+                    id="headlink"
+                    class="button"
+                    @mouseenter="preloadpricing"
+                    >Pricing</router-link
+                >
             </div>
         </div>
         <div>
             for dev=>
-            <router-link to="/requestdemo" id="demobutton" class="button">Request Demo</router-link>
-            <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
+            <router-link to="/requestdemo" id="demobutton" class="button"
+                >Request Demo</router-link
+            >
+            <router-link to="/signup" id="signupbutton" class="button"
+                >Sign Up</router-link
+            >
         </div>
     </div>
     <div id="cookiemonster" class="blackbgc">
@@ -31,35 +60,41 @@
         <div style="display: flex">
             <div>
                 <button id="nocookie" class="button">Decline</button>
-                <input type="button" value="Accept" id="acceptcookie" class="button" @click="cookie()" />
+                <input
+                    type="button"
+                    value="Accept"
+                    id="acceptcookie"
+                    class="button"
+                    @click="cookie()"
+                />
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 const yeah = ref(0);
 const preloadproducts = () => {
-    import('../views/Products.vue');
+    import("../views/Products.vue");
 };
 const preloadsolutions = () => {
-    import('../views/Solutions.vue');
+    import("../views/Solutions.vue");
 };
 const preloadresources = () => {
-    import('../views/Resources.vue');
+    import("../views/Resources.vue");
 };
 const preloadpricing = () => {
-    import('../views/Pricing.vue');
+    import("../views/Pricing.vue");
 };
 
 let show = ref(true);
 
 function cookie() {
-    console.log(document.cookie.match())
-    
-    document.cookie = "random number" + "=" + Math.floor(Math.random()*100) + ";";
+    console.log(document.cookie.match());
 
+    document.cookie =
+        "random number" + "=" + Math.floor(Math.random() * 100) + ";";
 }
 </script>
 

@@ -3,37 +3,53 @@
         <div id="headernavmain">
             <router-link to="/" id="chimprankrouter" class="button">
                 <p id="chimprank">ChimpRank</p>
-                <img src="../components/images/icons/monkey.svg" alt="icon" id="chimpranklogo" />
+                <img
+                    src="../components/images/icons/monkey.svg"
+                    alt="icon"
+                    id="chimpranklogo"
+                />
             </router-link>
 
-            <div id="headnavlink">
-                <img src="../components/images/icons/search.svg" id="searchicon" />
-                <input id="searchbar" />
-            </div>
+            <form id="headnavlink" @submit.prevent="searchpost(search)">
+                <button>
+                    <img
+                        src="../components/images/icons/search.svg"
+                        id="searchicon"
+                    />
+                </button>
+                <input id="searchbar" v-model="search" />
+            </form>
             <div>
-                <router-link to="/signup" id="signupbutton" class="button">Sign Up</router-link>
+                <router-link to="/signup" id="signupbutton" class="button"
+                    >Sign Up</router-link
+                >
             </div>
             <div id="avatar" @click="dropdownmenu = !dropdownmenu">
-                <img src="/resources/components/images/icons/avatar.svg" style="width: 35px;">
+                <img
+                    src="/resources/components/images/icons/avatar.svg"
+                    style="width: 35px"
+                />
             </div>
-            <div v-if="dropdownmenu" id="dropdownmenu">
-                    hello
-                </div>
+            <div v-if="dropdownmenu" id="dropdownmenu">hello</div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
+import { usePostStore } from "../js/Stores/PostHandling";
+
+const { searchpost } = usePostStore();
+
+const search = ref()
 
 const dropdownmenu = ref(false);
-
 </script>
 
 <style scoped>
 #biggestheader {
     width: 100%;
-    background-color: #1f3347;
+    background-color: oklch(0.3 0.05 250);
     justify-items: center;
     box-shadow: 0 1px 2px 0 hsla(0, 0%, 100%, 0.1);
 }
@@ -69,12 +85,12 @@ const dropdownmenu = ref(false);
     color: inherit;
     outline: none;
     appearance: none;
-    font-family: 'Roboto', 'Arial', sans-serif;
+    font-family: "Roboto", "Arial", sans-serif;
     font-size: 1.3rem;
     line-height: 2rem;
 }
 
-#signupbutton{
+#signupbutton {
     padding: 7px 15px;
     border-radius: 7px;
     margin: 2px;
@@ -106,13 +122,13 @@ const dropdownmenu = ref(false);
     height: 30px;
     margin-top: 7px;
 }
-#avatar{
+#avatar {
     background-color: white;
     width: 35px;
     height: 35px;
     border-radius: 50%;
 }
-#dropdownmenu{
+#dropdownmenu {
     position: fixed;
     top: 50px;
     left: 70%;
