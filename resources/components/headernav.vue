@@ -55,11 +55,11 @@
             >
         </div>
     </div>
-    <div id="cookiemonster" class="blackbgc">
+    <div id="cookiemonster" class="blackbgc" v-if="!cookiedecision">
         accept the cookie
         <div style="display: flex">
             <div>
-                <button id="nocookie" class="button">Decline</button>
+                <button id="nocookie" class="button" @click="cookiedecision = true">Decline</button>
                 <input
                     type="button"
                     value="Accept"
@@ -89,12 +89,14 @@ const preloadpricing = () => {
 };
 
 let show = ref(true);
+const cookiedecision = ref();
+
+onMounted(() => (cookiedecision.value = document.cookie.match("random number") ? true : false));
 
 function cookie() {
-    console.log(document.cookie.match());
-
-    document.cookie =
-        "random number" + "=" + Math.floor(Math.random() * 100) + ";";
+        document.cookie =
+            "random number" + "=" + Math.floor(Math.random() * 100) + ";";
+            cookiedecision.value = true;
 }
 </script>
 

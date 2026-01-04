@@ -10,12 +10,27 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // $posts = Post::with('author')->where('published_at', '<=', now())->latest()->paginate(10);
-        $posts = Post::with('author')->latest()->paginate(10);
+        $category = $request->query('category');
+        $alltags = $request->query('tags');
+        $tagsarray = $alltags ? array_map('trim', explode(',', $alltags)) : [];
+        $posts = Post::with('author');
 
-        return response()->json($posts);
+        if ($category) {
+            $posts->whereHas('category', function ($q) use ($category) {
+                $q->where('name', $category);
+            });
+        }
+        if ($tagsarray) {
+            foreach ($tagsarray as $tag) {
+                $posts->whereHas('tags', function ($q) use ($tag) {
+                    $q->where('name', $tag);
+                });
+            }
+        }
+
+        return response()->json($posts->latest()->paginate(10));
     }
 
     public function show(Post $post)
@@ -56,7 +71,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category' => 'required|exists:categories,id',
+            'category' => 'required|exists:categories,slug',
             'tags' => 'nullable|array',
             'tags.*' => 'string|max:30',
         ]);
@@ -88,7 +103,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories',
             'tags' => 'nullable|array',
             'tags.*' => 'string|max:50',
         ]);
@@ -97,10 +112,10 @@ class PostController extends Controller
 
         if (isset($validated['tags'])) {
             $tagIds = [];
-            foreach ($validated['tags'] as $tagName) {
+            foreach ($validated['tags'] as $tag) {
                 $tag = Tag::firstOrCreate(
-                    ['name' => $tagName],
-                    ['slug' => Str::slug($tagName)]
+                    ['name' => $tag],
+                    ['slug' => Str::slug($tag)]
                 );
                 $tagIds[] = $tag->id;
             }

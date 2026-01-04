@@ -11,13 +11,13 @@
             </router-link>
 
             <form id="headnavlink" @submit.prevent="searchpost(search)">
-                <button>
+                <button id="searchbutton">
                     <img
                         src="../components/images/icons/search.svg"
                         id="searchicon"
                     />
                 </button>
-                <input id="searchbar" v-model="search" />
+                <input id="searchbar" v-model="search" style="color: white;"/>
             </form>
             <div>
                 <router-link to="/signup" id="signupbutton" class="button"
@@ -65,9 +65,9 @@ const dropdownmenu = ref(false);
 
 #headnavlink {
     margin: 0 30px;
-    padding: 1px 50px 1px 25px;
+    padding: 1px 50px 1px 3px;
     border-radius: 15px;
-    background-color: hsl(210, 83%, 74%);
+    background-color: oklch(0.5 0.05 250);
     display: flex;
     justify-content: space-between;
     width: 600px;
@@ -133,5 +133,12 @@ const dropdownmenu = ref(false);
     top: 50px;
     left: 70%;
     background-color: rgb(252, 200, 200);
+}
+#searchbutton{
+    border-radius: 12px;
+    background-color: oklch(0.7 0.05 250);;
+    border: none;
+    margin: 1px;
+    width: 60px;
 }
 </style>
