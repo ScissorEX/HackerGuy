@@ -53,10 +53,10 @@ const routes = [
                     import("../resources/components/communitypostcard.vue"),
             },
             {
-                path: "createpost",
-                name: "createpost",
+                path: "postsearch",
+                name: "postsearch",
                 component: () =>
-                    import("../resources/views/communitycreatepost.vue"),
+                    import("../resources/views/communitypostsearch.vue"),
             },
             {
                 path: ":id/:slug",

@@ -10,14 +10,14 @@
                 />
             </router-link>
 
-            <form id="headnavlink" @submit.prevent="searchpost(search)">
+            <form id="headnavlink" @submit.prevent="searching(search)">
                 <button id="searchbutton">
                     <img
                         src="../components/images/icons/search.svg"
                         id="searchicon"
                     />
                 </button>
-                <input id="searchbar" v-model="search" style="color: white;"/>
+                <input id="searchbar" v-model="search" />
             </form>
             <div>
                 <router-link to="/signup" id="signupbutton" class="button"
@@ -37,13 +37,24 @@
 
 <script setup>
 import { ref } from "vue";
-import { usePostStore } from "../js/Stores/PostHandling";
+import { useSearchStore } from "../js/Stores/SearchHandling";
+import { useRouter } from "vue-router";
 
-const { searchpost } = usePostStore();
-
+const searchStore = useSearchStore();
+const router = useRouter();
 const search = ref()
 
 const dropdownmenu = ref(false);
+
+async function searching(a){
+    try {
+        await searchStore.searchpost(a);
+        router.push({ name: "postsearch"});
+    } catch {
+        return console.log('error');
+    }
+    
+};
 </script>
 
 <style scoped>
@@ -65,7 +76,7 @@ const dropdownmenu = ref(false);
 
 #headnavlink {
     margin: 0 30px;
-    padding: 1px 50px 1px 3px;
+    padding: 1px 3px;
     border-radius: 15px;
     background-color: oklch(0.5 0.05 250);
     display: flex;
@@ -75,19 +86,18 @@ const dropdownmenu = ref(false);
 }
 
 #searchbar {
-    text-decoration: none;
-    padding: 1px 3px;
+    padding: 1px 15px;
     margin: 0;
     width: 100%;
-    background-color: transparent;
     border: none;
-    box-shadow: none;
-    color: inherit;
+    color: white;
     outline: none;
-    appearance: none;
-    font-family: "Roboto", "Arial", sans-serif;
     font-size: 1.3rem;
     line-height: 2rem;
+    background: transparent;
+}
+#searchbar:focus{
+    background-color: #00e199;
 }
 
 #signupbutton {
@@ -134,9 +144,9 @@ const dropdownmenu = ref(false);
     left: 70%;
     background-color: rgb(252, 200, 200);
 }
-#searchbutton{
+#searchbutton {
     border-radius: 12px;
-    background-color: oklch(0.7 0.05 250);;
+    background-color: oklch(0.7 0.05 250);
     border: none;
     margin: 1px;
     width: 60px;

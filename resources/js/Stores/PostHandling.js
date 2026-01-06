@@ -47,12 +47,5 @@ export const usePostStore = defineStore("postStore", {
             const data = await res.json();
             return data;
         },
-        async searchpost(search) {
-            const res = await fetch(`/api/search?search=${search}`);
-            const data = await res.json();
-            console.log(data);
-            
-            return data;
-        },
     },
 });
