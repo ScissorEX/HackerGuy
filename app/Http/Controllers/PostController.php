@@ -103,7 +103,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category_id' => 'required|exists:categories',
+            'category_id' => 'required|exists:categories,slug',
             'tags' => 'nullable|array',
             'tags.*' => 'string|max:50',
         ]);

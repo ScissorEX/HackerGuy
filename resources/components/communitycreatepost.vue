@@ -23,7 +23,6 @@
         <div id="formin">
             <label for="category">write content</label>
             <select
-                type="bullet"
                 name="category"
                 v-model="formdata.category"
                 class="textin"
