@@ -40,6 +40,7 @@ const routes = [
         path: "/signup",
         name: "signup",
         component: () => import("../resources/views/Signup.vue"),
+        meta: { guest: true }
     },
     {
         path: "/community",

@@ -18,7 +18,9 @@ Route::post('signup', [AuthController::class,'register']);
 Route::post('login', [AuthController::class,'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('posts', PostController::class)->except(['index', 'show']);
+    Route::post('posts',[PostController::class, 'store']);
+    Route::patch('posts/{post}',[PostController::class, 'update']);
+    Route::delete('posts/{post}',[PostController::class, 'destroy']);
     Route::post('posts/{post}/comments', [CommentController::class, 'store']);
     Route::post('posts/{post}/vote', [VoteController::class, 'votePost']);
     Route::post('comments/{comment}/vote', [VoteController::class, 'voteComment']);

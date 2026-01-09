@@ -14,6 +14,12 @@
                     <div id="datecontainer">
                         <p>{{ post.created_since }}</p>
                         <p v-if="updated">updated</p>
+                        <div  v-if="authStore.user && authStore.user.id === post.author_id">
+                            <div class="button" id="updatepost">update</div>
+                            <div class="button" id="deletepost" @click="trydeletepost(post.id)">delete</div>
+                        </div>
+                        
+
                     </div>
                 </div>
                 <div id="separator"></div>
@@ -64,7 +70,7 @@
 import { useVoteStore } from "../js/Stores/VoteHandling.js";
 import { storeToRefs } from "pinia";
 import { ref, watch, computed, onMounted, reactive } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { usePostStore } from "../js/Stores/PostHandling.js";
 import comcomment from "../components/communitycomment.vue";
 import thumbupon from "../components/images/icons/thumb-up-ON.svg";
@@ -72,15 +78,18 @@ import thumbupoff from "../components/images/icons/thumb-up-OFF.svg";
 import thumbdownon from "../components/images/icons/thumb-down-ON.svg";
 import thumbdownoff from "../components/images/icons/thumb-down-OFF.svg";
 import { useCommentStore } from "../js/Stores/CommentHandling.js";
+import { useAuthStore } from "../js/Stores/AuthHandling.js";
 
-const { getPost } = usePostStore();
+const { getPost, postdelete, postupdate } = usePostStore();
 const { commentsubmit } = useCommentStore();
+const authStore = useAuthStore();
 
 const commentdata = reactive({
     content: "",
 });
 
 const route = useRoute();
+const router = useRouter();
 
 const loading = ref(false);
 const post = ref(null);
@@ -148,6 +157,40 @@ const ratio = computed(() => {
     return total == 0 ? "50%" : `${(up / total) * 100}%`;
 });
 
+async function trydeletepost(id) {
+    error.value = post.value = null;
+    loading.value = true;
+
+    try {
+        console.log();
+        await postdelete(id);
+        router.back();
+    } catch (err) {
+        error.value = err.toString();
+    } finally {
+        loading.value = false;
+    }
+}
+
+const updateform = reactive([
+
+])
+
+async function tryupdatepost(updateform) {
+    error.value = post.value = null;
+    loading.value = true;
+
+    try {
+        console.log();
+        await postdelete(id);
+        router.back();
+    } catch (err) {
+        error.value = err.toString();
+    } finally {
+        loading.value = false;
+    }
+}
+
 const { errors } = storeToRefs(useVoteStore());
 const { votesubmit } = useVoteStore();
 
@@ -157,6 +200,10 @@ onMounted(() => (errors.value = {}));
 <style scoped>
 #frame {
     display: flex;
+    width: 100%;
+}
+#body{
+    width: 100%;
 }
 
 #loading {
@@ -220,5 +267,19 @@ onMounted(() => (errors.value = {}));
 
 p {
     margin: 10px;
+}
+#deletepost{
+    background-color: rgb(240, 91, 91);
+    color: black;
+    border-radius: 8px;
+    padding: 3px 10px;
+    align-content: center;
+}
+#updatepost{
+    background-color: rgb(90, 179, 116);
+    color: black;
+    border-radius: 8px;
+    padding: 3px 10px;
+    align-content: center;
 }
 </style>

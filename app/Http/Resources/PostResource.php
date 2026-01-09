@@ -15,6 +15,7 @@ class PostResource extends JsonResource
             'slug' => $this->slug,
             'content' => $this->content,
             'author' => $this->author->name,
+            'author_id' => $this->author->id,
             'category' => $this->category->name,
             'tags' => $this->tags->pluck('name')->toArray(),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),

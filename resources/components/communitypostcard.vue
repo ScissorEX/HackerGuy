@@ -12,7 +12,7 @@
                 <communitycreatepost></communitycreatepost>
             </div>
         </div>
-        <div v-for="post in posts" :key="post.id">
+        <div id="deck" v-for="post in posts" :key="post.id">
             <div id="separator"></div>
             <a @click="showpost(post)" id="thecard">
                 <h3>{{ post.title }}</h3>
@@ -54,6 +54,9 @@ const createpost = ref(false);
     align-items: center;
     gap: 8px;
     overflow: visible;
+}
+#deck{
+    width: 100%;
 }
 
 #thecard {
