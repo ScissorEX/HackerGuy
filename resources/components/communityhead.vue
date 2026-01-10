@@ -19,18 +19,26 @@
                 </button>
                 <input id="searchbar" v-model="search" />
             </form>
-            <div>
-                <router-link to="/signup" id="signupbutton" class="button"
-                    >Sign Up</router-link
-                >
-            </div>
-            <div id="avatar" @click="dropdownmenu = !dropdownmenu">
+            
+            <div
+                id="avatar"
+                @click="dropdownmenu = !dropdownmenu"
+                v-if="authStore.user"
+            >
                 <img
                     src="/resources/components/images/icons/avatar.svg"
                     style="width: 35px"
                 />
             </div>
-            <div v-if="dropdownmenu" id="dropdownmenu">hello</div>
+
+            <div v-else>
+                <router-link to="/signup" id="signupbutton" class="button"
+                    >Sign Up</router-link
+                >
+            </div>
+            <div v-if="dropdownmenu" id="dropdownmenu">
+                <span @click="authStore.logout()"> log out</span>
+            </div>
         </div>
     </div>
 </template>
@@ -38,23 +46,24 @@
 <script setup>
 import { ref } from "vue";
 import { useSearchStore } from "../js/Stores/SearchHandling";
+import { useAuthStore } from "../js/Stores/AuthHandling.js"
 import { useRouter } from "vue-router";
 
 const searchStore = useSearchStore();
+const authStore = useAuthStore();
 const router = useRouter();
-const search = ref()
+const search = ref();
 
 const dropdownmenu = ref(false);
 
-async function searching(a){
+async function searching(a) {
     try {
         await searchStore.searchpost(a);
-        router.push({ name: "postsearch"});
+        router.push({ name: "postsearch" });
     } catch {
-        return console.log('error');
+        return console.log("error");
     }
-    
-};
+}
 </script>
 
 <style scoped>
@@ -96,7 +105,7 @@ async function searching(a){
     line-height: 2rem;
     background: transparent;
 }
-#searchbar:focus{
+#searchbar:focus {
     background-color: #00e199;
 }
 

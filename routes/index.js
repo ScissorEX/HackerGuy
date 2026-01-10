@@ -51,7 +51,7 @@ const routes = [
                 path: "",
                 name: "allposts",
                 component: () =>
-                    import("../resources/components/communitypostcard.vue"),
+                    import("../resources/views/communitypostcards.vue"),
             },
             {
                 path: "postsearch",

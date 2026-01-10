@@ -14,12 +14,37 @@
                     <div id="datecontainer">
                         <p>{{ post.created_since }}</p>
                         <p v-if="updated">updated</p>
-                        <div  v-if="authStore.user && authStore.user.id === post.author_id">
-                            <div class="button" id="updatepost">update</div>
-                            <div class="button" id="deletepost" @click="trydeletepost(post.id)">delete</div>
+                        <div
+                            v-if="
+                                authStore.user &&
+                                authStore.user.id === post.author_id
+                            "
+                        >
+                            <div
+                                class="button"
+                                id="updatepost"
+                                @click="openpostwindow"
+                            >
+                                update
+                            </div>
+                            <div
+                                class="button"
+                                id="deletepost"
+                                @click="trydeletepost(post.id)"
+                            >
+                                delete
+                            </div>
                         </div>
-                        
-
+                        <div v-if="createpost">
+                            <communitycreatepost
+                                :patchtype="patchtype"
+                                @closewindow="
+                                    (payload) => {
+                                        createpost = payload;
+                                    }
+                                "
+                            ></communitycreatepost>
+                        </div>
                     </div>
                 </div>
                 <div id="separator"></div>
@@ -79,8 +104,9 @@ import thumbdownon from "../components/images/icons/thumb-down-ON.svg";
 import thumbdownoff from "../components/images/icons/thumb-down-OFF.svg";
 import { useCommentStore } from "../js/Stores/CommentHandling.js";
 import { useAuthStore } from "../js/Stores/AuthHandling.js";
+import Communitycreatepost from "../components/communitycreatepost.vue";
 
-const { getPost, postdelete, postupdate } = usePostStore();
+const postStore = usePostStore();
 const { commentsubmit } = useCommentStore();
 const authStore = useAuthStore();
 
@@ -132,14 +158,14 @@ async function fetchdata(id) {
     loading.value = true;
 
     try {
-        const data = await getPost(id);
+        const data = await postStore.getPost(id);
         post.value = data;
         localvote.value = data.uservote ?? null;
         localcounts.value = {
             up: data.upvote ?? 0,
             down: data.downvote ?? 0,
         };
-        //updated.value = data.was_updated
+        updated.value = data.was_updated;
     } catch (err) {
         error.value = err.toString();
     } finally {
@@ -163,7 +189,7 @@ async function trydeletepost(id) {
 
     try {
         console.log();
-        await postdelete(id);
+        await postStore.postdelete(id);
         router.back();
     } catch (err) {
         error.value = err.toString();
@@ -172,23 +198,12 @@ async function trydeletepost(id) {
     }
 }
 
-const updateform = reactive([
+const createpost = ref(false);
+const patchtype = ref(null);
 
-])
-
-async function tryupdatepost(updateform) {
-    error.value = post.value = null;
-    loading.value = true;
-
-    try {
-        console.log();
-        await postdelete(id);
-        router.back();
-    } catch (err) {
-        error.value = err.toString();
-    } finally {
-        loading.value = false;
-    }
+function openpostwindow() {
+    createpost.value = !createpost.value;
+    patchtype.value = "update post";
 }
 
 const { errors } = storeToRefs(useVoteStore());
@@ -202,7 +217,7 @@ onMounted(() => (errors.value = {}));
     display: flex;
     width: 100%;
 }
-#body{
+#body {
     width: 100%;
 }
 
@@ -268,14 +283,14 @@ onMounted(() => (errors.value = {}));
 p {
     margin: 10px;
 }
-#deletepost{
+#deletepost {
     background-color: rgb(240, 91, 91);
     color: black;
     border-radius: 8px;
     padding: 3px 10px;
     align-content: center;
 }
-#updatepost{
+#updatepost {
     background-color: rgb(90, 179, 116);
     color: black;
     border-radius: 8px;

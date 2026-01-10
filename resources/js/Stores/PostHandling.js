@@ -47,10 +47,10 @@ export const usePostStore = defineStore("postStore", {
             const data = await res.json();
             return data;
         },
-        async postupdate(formdata) {
+        async postupdate(formdata,id) {
             const token = localStorage.getItem("token");
-
-            const res = await fetch("/api/posts", {
+            
+            const res = await fetch(`/api/posts/${id}`, {
                 method: "patch",
                 headers: {
                     "Content-Type": "application/json",

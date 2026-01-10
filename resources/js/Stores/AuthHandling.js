@@ -49,13 +49,11 @@ export const useAuthStore = defineStore("authStore", {
                 },
             });
 
-            const data = await res.json();
-
             if (res.ok) {
                 this.user = null;
                 this.errors = {};
                 localStorage.removeItem("token");
-                router.push({ name: "home" });
+                this.router.push({ name: "home" });
             }
         },
     },

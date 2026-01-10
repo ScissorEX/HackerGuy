@@ -1,15 +1,18 @@
 <template>
     <div id="content">
         <div id="postsfilterandthelikes">
-            <div
-                @click="createpost = !createpost"
-                id="createbutton"
-                class="button"
-            >
+            <div @click="openpostwindow" id="createbutton" class="button">
                 create post +
             </div>
             <div id="createpostcontainer" v-if="createpost">
-                <communitycreatepost></communitycreatepost>
+                <communitycreatepost
+                    :patchtype="patchtype"
+                    @closewindow="
+                        (payload) => {
+                            createpost = payload;
+                        }
+                    "
+                ></communitycreatepost>
             </div>
         </div>
         <div id="deck" v-for="post in posts" :key="post.id">
@@ -27,7 +30,7 @@
 import { useRouter } from "vue-router";
 import { usePostStore } from "../js/Stores/PostHandling";
 import { onMounted, ref } from "vue";
-import communitycreatepost from "./communitycreatepost.vue";
+import communitycreatepost from "../components/communitycreatepost.vue";
 
 const { getListPosts } = usePostStore();
 const posts = ref([]);
@@ -42,6 +45,12 @@ function showpost(post) {
 }
 
 const createpost = ref(false);
+const patchtype = ref(null);
+
+function openpostwindow() {
+    createpost.value = !createpost.value;
+    patchtype.value = "create post";
+}
 </script>
 
 <style scoped>
@@ -55,7 +64,7 @@ const createpost = ref(false);
     gap: 8px;
     overflow: visible;
 }
-#deck{
+#deck {
     width: 100%;
 }
 
@@ -88,10 +97,9 @@ const createpost = ref(false);
     color: #072c09;
 }
 #createpostcontainer {
-    width: 300px;
-    height: 300px;
     position: absolute;
-    background-color: aquamarine;
+    width: 100%;
+    height: 100%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

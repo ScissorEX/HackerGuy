@@ -15,7 +15,6 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useSearchStore } from "../js/Stores/SearchHandling";
-import { ref } from "vue";
 
 const searchStore = useSearchStore();
 const router = useRouter();
