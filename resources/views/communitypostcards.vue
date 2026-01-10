@@ -31,6 +31,7 @@ import { useRouter } from "vue-router";
 import { usePostStore } from "../js/Stores/PostHandling";
 import { onMounted, ref } from "vue";
 import communitycreatepost from "../components/communitycreatepost.vue";
+import { useAuthStore } from "../js/Stores/AuthHandling";
 
 const { getListPosts } = usePostStore();
 const posts = ref([]);
@@ -48,8 +49,12 @@ const createpost = ref(false);
 const patchtype = ref(null);
 
 function openpostwindow() {
-    createpost.value = !createpost.value;
-    patchtype.value = "create post";
+    if (useAuthStore.user) {
+        createpost.value = !createpost.value;
+        patchtype.value = "create post";
+    } else {
+        router.push({ name: "signup" });
+    }
 }
 </script>
 

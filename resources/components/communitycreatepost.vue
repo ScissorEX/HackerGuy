@@ -76,8 +76,9 @@ async function postpatch() {
     } else if (props.patchtype == "update post") {
         await postStore.postupdate(formdata,postId);
     } else {
-        console.log("error : postpatch() at communitycreatepost");
+        return console.log("error : postpatch() at communitycreatepost");
     }
+    window.location.reload()
 }
 onMounted(() => (errors.value = {}));
 </script>

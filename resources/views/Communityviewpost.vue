@@ -6,6 +6,7 @@
         <div v-if="error" class="error">{{ error }}</div>
         <div id="body" v-if="post">
             <div id="postheader">
+                <h4>category: {{ post.category }}</h4>
                 <h2>{{ post.title }}</h2>
                 <div id="subheader">
                     <div id="tagcontainer">
@@ -51,15 +52,15 @@
             </div>
 
             <div id="contentcontainer">
-                <h4>{{ post.category }}</h4>
+                
                 <p>{{ post.content }}</p>
 
                 <h3>by {{ post.author }}</h3>
 
-                <div>
+                <div id="votingcontainer">
+                    <p>{{ localcounts.up }}</p>
                     <a @click="voting(1)">
                         <img :src="thumbup" />
-                        <p>{{ localcounts.up }}</p>
                     </a>
 
                     <div id="voteratio">
@@ -70,6 +71,7 @@
                         <img :src="thumbdown" />
                     </a>
                 </div>
+                <div id="separator"></div>
                 <p>{{ post.comments.length }} comments</p>
                 <form @submit="commentsubmit(post.id, commentdata)">
                     <input
@@ -234,12 +236,12 @@ onMounted(() => (errors.value = {}));
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    margin: auto 6px;
 }
 
 #voteratiobar {
     background-color: rgb(204, 51, 31);
     border-radius: 3px 3px 0 0;
-
     height: v-bind("ratio");
 }
 
@@ -296,5 +298,9 @@ p {
     border-radius: 8px;
     padding: 3px 10px;
     align-content: center;
+}
+#votingcontainer{
+    display: flex;
+    align-items: flex-end;
 }
 </style>

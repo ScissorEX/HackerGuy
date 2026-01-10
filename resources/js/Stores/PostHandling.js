@@ -48,10 +48,11 @@ export const usePostStore = defineStore("postStore", {
             return data;
         },
         async postupdate(formdata,id) {
+            
             const token = localStorage.getItem("token");
             
             const res = await fetch(`/api/posts/${id}`, {
-                method: "patch",
+                method: "put",
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",

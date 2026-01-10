@@ -23,23 +23,20 @@ onUnmounted(() => {
 
 <template>
         <div id="div60">
-                <img @click="$router.back()" src="../components/images/icons/monkey.svg" style="width: 250px;"/>
+                <img @click="$router.back()" src="../components/images/icons/monkey.svg" id="logo"/>
 
             <div v-if="tologin">
                 <signupcomp></signupcomp>
                 <div>
                     <p style="justify-self: center">Already have an account?</p>
-                    <button @click="tologin = !tologin" id="buttonswitch">Sign in instead</button>
+                    <button @click="tologin = !tologin" id="buttonswitch">Sign in instead -></button>
                 </div>
             </div>
 
             <div v-if="!tologin">
                 <logincomp></logincomp>
-                <button @click="tologin = !tologin" id="buttonswitch">Back to Sign Up</button>
+                <button @click="tologin = !tologin" id="buttonswitch"><- Back to Sign Up</button>
             </div>
-            <form @submit.prevent="logout()">
-                <button type="submit"></button>
-            </form>
         </div>
 </template>
 
@@ -52,10 +49,14 @@ onUnmounted(() => {
     background-repeat: no-repeat;
     background-size: contain;
     background-position: 50%;
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 #logo {
-    padding: 50px;
+    width: 250px;
+    margin: 50px;
     display: flex;
     justify-self: center;
 }
