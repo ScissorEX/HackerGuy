@@ -34,6 +34,7 @@ import communitycreatepost from "../components/communitycreatepost.vue";
 import { useAuthStore } from "../js/Stores/AuthHandling";
 
 const { getListPosts } = usePostStore();
+const authStore = useAuthStore()
 const posts = ref([]);
 
 onMounted(async () => {
@@ -49,7 +50,7 @@ const createpost = ref(false);
 const patchtype = ref(null);
 
 function openpostwindow() {
-    if (useAuthStore.user) {
+    if (authStore.user) {
         createpost.value = !createpost.value;
         patchtype.value = "create post";
     } else {
