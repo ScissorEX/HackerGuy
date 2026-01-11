@@ -25,11 +25,6 @@ const routes = [
                 component: () => import("../resources/views/Resources.vue"),
             },
             {
-                path: "pricing",
-                name: "pricing",
-                component: () => import("../resources/views/Pricing.vue"),
-            },
-            {
                 path: "requestdemo",
                 name: "requestdemo",
                 component: () => import("../resources/views/RequestDemo.vue"),

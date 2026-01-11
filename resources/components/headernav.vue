@@ -37,12 +37,14 @@
                 >
 
                 <router-link
-                    to="/pricing"
+                    to="/community"
                     id="headlink"
                     class="button"
-                    @mouseenter="preloadpricing"
-                    >Pricing</router-link
-                >
+                    >Community
+                    <img
+                        src="../components/images/icons/out.svg"
+                        style="width: 20px; transform: rotate(90deg)"
+                /></router-link>
             </div>
         </div>
         <div>
@@ -50,7 +52,12 @@
             <router-link to="/requestdemo" id="demobutton" class="button"
                 >Request Demo</router-link
             >
-            <router-link to="/signup" id="signupbutton" class="button"
+            <userprofileicon v-if="authStore.user"></userprofileicon>
+            <router-link
+                to="/signup"
+                id="signupbutton"
+                class="button"
+                v-else="authStore.user"
                 >Sign Up</router-link
             >
         </div>
@@ -59,7 +66,13 @@
         accept the cookie
         <div style="display: flex">
             <div>
-                <button id="nocookie" class="button" @click="cookiedecision = true">Decline</button>
+                <button
+                    id="nocookie"
+                    class="button"
+                    @click="cookiedecision = true"
+                >
+                    Decline
+                </button>
                 <input
                     type="button"
                     value="Accept"
@@ -73,8 +86,9 @@
 </template>
 
 <script setup>
+import { useAuthStore } from "../js/Stores/AuthHandling";
 import { onMounted, ref } from "vue";
-const yeah = ref(0);
+import Userprofileicon from "./userprofileicon.vue";
 const preloadproducts = () => {
     import("../views/Products.vue");
 };
@@ -84,19 +98,22 @@ const preloadsolutions = () => {
 const preloadresources = () => {
     import("../views/Resources.vue");
 };
-const preloadpricing = () => {
-    import("../views/Pricing.vue");
-};
 
+const authStore = useAuthStore();
 let show = ref(true);
 const cookiedecision = ref();
 
-onMounted(() => (cookiedecision.value = document.cookie.match("random number") ? true : false));
+onMounted(
+    () =>
+        (cookiedecision.value = document.cookie.match("random number")
+            ? true
+            : false),
+);
 
 function cookie() {
-        document.cookie =
-            "random number" + "=" + Math.floor(Math.random() * 100) + ";";
-            cookiedecision.value = true;
+    document.cookie =
+        "random number" + "=" + Math.floor(Math.random() * 100) + ";";
+    cookiedecision.value = true;
 }
 </script>
 

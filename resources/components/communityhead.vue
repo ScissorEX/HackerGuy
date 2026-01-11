@@ -19,25 +19,13 @@
                 </button>
                 <input id="searchbar" v-model="search" />
             </form>
-            
-            <div
-                id="avatar"
-                @click="dropdownmenu = !dropdownmenu"
-                v-if="authStore.user"
-            >
-                <img
-                    src="/resources/components/images/icons/avatar.svg"
-                    style="width: 35px"
-                />
-            </div>
+
+            <userprofileicon v-if="authStore.user"></userprofileicon>
 
             <div v-else>
                 <router-link to="/signup" id="signupbutton" class="button"
                     >Sign Up</router-link
                 >
-            </div>
-            <div v-if="dropdownmenu" id="dropdownmenu">
-                <span @click="authStore.logout()"> log out</span>
             </div>
         </div>
     </div>
@@ -46,15 +34,14 @@
 <script setup>
 import { ref } from "vue";
 import { useSearchStore } from "../js/Stores/SearchHandling";
-import { useAuthStore } from "../js/Stores/AuthHandling.js"
+import { useAuthStore } from "../js/Stores/AuthHandling.js";
 import { useRouter } from "vue-router";
+import Userprofileicon from "./userprofileicon.vue";
 
 const searchStore = useSearchStore();
 const authStore = useAuthStore();
 const router = useRouter();
 const search = ref();
-
-const dropdownmenu = ref(false);
 
 async function searching(a) {
     try {
@@ -141,18 +128,7 @@ async function searching(a) {
     height: 30px;
     margin-top: 7px;
 }
-#avatar {
-    background-color: white;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-}
-#dropdownmenu {
-    position: fixed;
-    top: 50px;
-    left: 70%;
-    background-color: rgb(252, 200, 200);
-}
+
 #searchbutton {
     border-radius: 12px;
     background-color: oklch(0.7 0.05 250);
