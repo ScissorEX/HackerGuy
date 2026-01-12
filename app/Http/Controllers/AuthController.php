@@ -86,7 +86,22 @@ class AuthController extends Controller
 
     public function getuserdata(User $user)
     {
-        $user->load('comment', 'posts');
+        $user->load([
+            'posts.category',
+            'posts.tags',
+        ]);
+
+        $user->load([
+            'posts' => fn ($q) => $q->withCount([
+                'votes as upvote' => fn ($q) => $q->where('vote', 1),
+                'votes as downvote' => fn ($q) => $q->where('vote', -1),
+            ])->with(['category', 'tags']),
+            'comment' => fn ($q) => $q->withCount([
+                'votes as upvote' => fn ($q) => $q->where('vote', 1),
+                'votes as downvote' => fn ($q) => $q->where('vote', -1),
+            ]),
+        ]);
+
         UserResource::withoutWrapping();
 
         return new UserResource($user);

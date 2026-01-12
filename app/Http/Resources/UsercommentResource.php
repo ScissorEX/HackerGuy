@@ -10,7 +10,8 @@ class UsercommentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'id' => $this->post->id,
+            'slug' => $this->post->slug,
             'content' => $this->content,
             'upvote' => $this->upvote,
             'downvote' => $this->downvote,

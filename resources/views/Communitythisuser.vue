@@ -10,18 +10,29 @@
                 <p id="username">{{ userdata.name }}</p>
             </div>
             <div id="usercreations">
-                <div id="deck" v-for="post in userdata.posts" :key="post.id">
-                    <a @click="showpost(post)" id="thecard">
-                        <h3>{{ post.title }}</h3>
-                        <p>{{ post.content }}</p>
-                        <span>By {{ userdata.name }}</span>
-                    </a>
+                <div id="postslist">
+                    <h2>User posts</h2>
+                    <div id="separator"></div>
+                    <div id="deck" v-for="post in userdata.posts" :key="post.id">
+                        <a @click="showpost(post)" id="thecard">
+                            <h3>{{ post.title }}</h3>
+                            <p>{{ post.content }}</p>
+                            <span>By {{ userdata.name }}</span>
+                        </a>
+                    </div>
+                    <div v-if="userdata.posts.length == 0"> no posts</div>
                 </div>
-                <div id="deck" v-for="comment in userdata.comments" :key="comment.id">
-                    <a @click="showpost(post)" id="thecard">
-                        <p>{{ comment.content }}</p>
-                        <span>By {{ userdata.name }}</span>
-                    </a>
+                
+                <div id="commentslist">
+                    <h2>User Comments</h2>
+                    <div id="separator"></div>
+                    <div id="deck" v-for="comment in userdata.comments" :key="comment.id">
+                        <a @click="showpost(comment)" id="thecard">
+                            <p>{{ comment.content }}</p>
+                            <span>By {{ userdata.name }}</span>
+                        </a>
+                    </div>
+                    <div v-if="userdata.comments.length == 0"> no comments</div>
                 </div>
             </div>
             what up {{ userdata }}
@@ -88,5 +99,16 @@ onMounted(getuser);
 #usercreations{
     display: flex;
     justify-content: space-around;
+}
+#separator {
+    background-color: #d8d8d8;
+    height: 2px;
+    margin: 40px 0;
+    width: 80%;
+    justify-self: center;
+}
+#postslist, #commentslist{
+    flex: 1;
+    justify-items: center;
 }
 </style>

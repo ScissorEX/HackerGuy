@@ -38,8 +38,8 @@ class PostController extends Controller
         $post->load('author:id,name', 'category:id,name', 'tags:id,name');
 
         $post->load(['comments' => fn ($q) => $q->with(['author:id,name'])->withcount([
-            'votes as upvote' => fn ($q2) => $q2->where('vote', 1),
-            'votes as downvote' => fn ($q2) => $q2->where('vote', -1),
+            'votes as upvote' => fn ($q) => $q->where('vote', 1),
+            'votes as downvote' => fn ($q) => $q->where('vote', -1),
         ])]);
 
         $post->loadCount([
@@ -96,9 +96,7 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        if (auth('sanctum')->id() != $post->user_id) {
-            return response()->json('unauthorized');
-        }
+        $this->authorize('update', $post);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -128,13 +126,11 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        if (auth('sanctum')->id() != $post->user_id) {
-            return response()->json('unauthorized');
-        }
+        $this->authorize('delete', $post);
 
         $post->delete();
 
-        return response()->json('comment deleted');
+        return response()->json('post deleted');
     }
 
     public function search(Request $request)
