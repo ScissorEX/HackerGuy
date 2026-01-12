@@ -5,8 +5,17 @@
         </div>
         <div v-if="error" class="error">{{ error }}</div>
         <div id="body" v-if="post">
+            <div id="categorybanner">
+                
+                <h4>{{ post.category }}</h4>
+            </div>
+            <div @click="router.back" id="arrowtogoback1step" class="button">
+                    <img
+                        src="../components/images/icons/arrow-left.svg"
+                        width="50px"
+                    />
+                </div>
             <div id="postheader">
-                <h4>category: {{ post.category }}</h4>
                 <h2>{{ post.title }}</h2>
                 <div id="subheader">
                     <div id="tagcontainer">
@@ -16,6 +25,7 @@
                         <p>{{ post.created_since }}</p>
                         <p v-if="updated">updated</p>
                         <div
+                            id="authmodifier"
                             v-if="
                                 authStore.user &&
                                 authStore.user.id === post.author_id
@@ -52,7 +62,6 @@
             </div>
 
             <div id="contentcontainer">
-                
                 <p>{{ post.content }}</p>
 
                 <h3>by {{ post.author }}</h3>
@@ -205,7 +214,7 @@ const patchtype = ref(null);
 
 function openpostwindow() {
     createpost.value = !createpost.value;
-    patchtype.value = "update post";
+    patchtype.value = "Update post";
 }
 
 const { errors } = storeToRefs(useVoteStore());
@@ -299,8 +308,32 @@ p {
     padding: 3px 10px;
     align-content: center;
 }
-#votingcontainer{
+#votingcontainer {
     display: flex;
     align-items: flex-end;
+}
+#categorybanner {
+    background-color: beige;
+    margin: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+#authmodifier {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#arrowtogoback1step{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    overflow: hidden;
+    height: 40px;
+    width: 40px;
 }
 </style>

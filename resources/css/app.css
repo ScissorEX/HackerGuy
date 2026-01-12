@@ -21,4 +21,5 @@ body::-webkit-scrollbar {
     text-decoration: none;
     color: #ffffff;
     cursor: pointer;
+    border: none;
 }

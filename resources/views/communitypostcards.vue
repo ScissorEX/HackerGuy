@@ -52,7 +52,7 @@ const patchtype = ref(null);
 function openpostwindow() {
     if (authStore.user) {
         createpost.value = !createpost.value;
-        patchtype.value = "create post";
+        patchtype.value = "Create post";
     } else {
         router.push({ name: "signup" });
     }
