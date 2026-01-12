@@ -35,7 +35,6 @@
                     <div v-if="userdata.comments.length == 0"> no comments</div>
                 </div>
             </div>
-            what up {{ userdata }}
         </div>
     </div>
 </template>
