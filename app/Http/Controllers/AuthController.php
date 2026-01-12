@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -16,7 +18,29 @@ class AuthController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $user = User::create($validated);
+        // sanitize handle
+        $basehandle = Str::lower(preg_replace('/\s+/', '', $request->name));
+        $handle = $basehandle;
+        // already exist? generate random string of 8 long, caps at 5
+        $attempts = 0;
+        while (User::where('handle', $handle)->exists() && $attempts < 5) {
+            $handle = $basehandle.'_'.Str::lower(Str::random(8));
+            $attempts++;
+        }
+
+        // no chance of getting here but what if. generate random string of 16 long, caps at 5
+        if (User::where('handle', $handle)->exists()) {
+            $attempts = 0;
+            while (User::where('handle', $handle)->exists() && $attempts < 5) {
+                $handle = $basehandle.'_'.Str::lower(Str::random(16));
+                $attempts++;
+            }
+        }
+        try {
+            $user = User::create(array_merge($validated, ['handle' => $handle]));
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Could not create user']);
+        }
 
         $token = $user->createToken($request->name);
 
@@ -58,5 +82,13 @@ class AuthController extends Controller
         return [
             'message' => 'Logged out',
         ];
+    }
+
+    public function getuserdata(User $user)
+    {
+        $user->load('comment', 'posts');
+        UserResource::withoutWrapping();
+
+        return new UserResource($user);
     }
 }

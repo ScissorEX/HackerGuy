@@ -1,25 +1,33 @@
 <template>
-    <div
-        id="avatar"
-        @click="dropdownmenu = !dropdownmenu"
-    >
+    <div id="avatar" @click="dropdownmenu = !dropdownmenu">
         <img
             src="/resources/components/images/icons/avatar.svg"
             style="width: 35px"
         />
-        <div v-if="dropdownmenu" id="dropdownmenu"  class="button">
-            <!-- <span>profile</span>
-            <br> -->
+        <div v-if="dropdownmenu" id="dropdownmenu" class="button">
+            <span @click="showuser" class="button" style="color: black"
+                >profile</span
+            >
+            <br />
             <span @click="authStore.logout()"> log out</span>
         </div>
     </div>
 </template>
 
 <script setup>
-    import { ref } from 'vue';
-    import { useAuthStore } from '../js/Stores/AuthHandling';
-    const authStore = useAuthStore()
-    const dropdownmenu = ref(false)
+import { ref } from "vue";
+import { useAuthStore } from "../js/Stores/AuthHandling";
+import { useRouter } from "vue-router";
+const router = useRouter();
+const authStore = useAuthStore();
+const dropdownmenu = ref(false);
+
+function showuser() {
+    router.push({
+        name: "thisuser",
+        params: { handle: authStore.user.handle },
+    });
+}
 </script>
 
 <style scoped>

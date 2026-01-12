@@ -60,6 +60,12 @@ const routes = [
                 component: () =>
                     import("../resources/views/Communityviewpost.vue"),
             },
+            {
+                path: "user/@:handle",
+                name: "thisuser",
+                component: () =>
+                    import("../resources/views/communitythisuser.vue"),
+            },
         ],
     },
 ];

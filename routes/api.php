@@ -33,3 +33,4 @@ Route::get('posts/{post}/comments', [CommentController::class, 'index']);
 Route::get('category', [CategoryController::class, 'index']);
 Route::get('category/{category}', [CategoryController::class, 'show']);
 Route::get('search', [PostController::class, 'search']);
+Route::get('thisuser/{user:handle}',[AuthController::class, 'getuserdata']);

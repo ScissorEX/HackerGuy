@@ -3,7 +3,6 @@ import { defineStore } from "pinia";
 export const useSearchStore = defineStore("searchStore", {
     state: () => {
         return {
-            user: null,
             errors: {},
             searchres: [],
         };
