@@ -13,6 +13,7 @@ class UsercommentResource extends JsonResource
             'id' => $this->post->id,
             'slug' => $this->post->slug,
             'content' => $this->content,
+            'author' => $this->author->name,
             'upvote' => $this->upvote,
             'downvote' => $this->downvote,
             'created_since' => $this->created_at->diffForHumans(),

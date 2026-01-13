@@ -17,7 +17,7 @@
                         <a @click="showpost(post)" id="thecard">
                             <h3>{{ post.title }}</h3>
                             <p>{{ post.content }}</p>
-                            <span>By {{ userdata.name }}</span>
+                            <span>By {{ post.author }}</span>
                         </a>
                     </div>
                     <div v-if="userdata.posts.length == 0"> no posts</div>
@@ -29,7 +29,7 @@
                     <div id="deck" v-for="comment in userdata.comments" :key="comment.id">
                         <a @click="showpost(comment)" id="thecard">
                             <p>{{ comment.content }}</p>
-                            <span>By {{ userdata.name }}</span>
+                            <span>By {{ comment.author }}</span>
                         </a>
                     </div>
                     <div v-if="userdata.comments.length == 0"> no comments</div>
@@ -87,6 +87,9 @@ onMounted(getuser);
 #username {
     margin: 0;
     font-size: 30px;
+}
+#deck{
+    margin: 30px;
 }
 #thecard{
     width: 300px;

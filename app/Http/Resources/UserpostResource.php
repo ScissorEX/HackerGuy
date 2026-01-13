@@ -14,6 +14,7 @@ class UserpostResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
+            'author' => $this->author->name,
             'category' => $this->category->name,
             'tags' => $this->tags->pluck('name')->toArray(),
             'upvote' => $this->upvote,

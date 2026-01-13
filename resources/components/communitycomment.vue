@@ -1,9 +1,9 @@
 <template>
     <div id="comment">
         <p>{{ comment.content }}</p>
-        <p>{{ comment.author }}</p>
+        <div id="authorname"><p @click="showuser" class="buttonb">{{ comment.author }}</p></div>
         <p>{{ comment.created_at }}</p>
-        <p>updated : {{ comment.was_updated }}</p>
+        <p v-if="updated">updated</p>
         <div>
             <a @click="voting(1)">
                 <img :src="thumbup" />
@@ -32,17 +32,19 @@ const props = defineProps({
 import { useVoteStore } from "../js/Stores/VoteHandling.js";
 import { storeToRefs } from "pinia";
 import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import thumbupon from "../components/images/icons/thumb-up-ON.svg";
 import thumbupoff from "../components/images/icons/thumb-up-OFF.svg";
 import thumbdownon from "../components/images/icons/thumb-down-ON.svg";
 import thumbdownoff from "../components/images/icons/thumb-down-OFF.svg";
 
+const router = useRouter();
 const localvote = ref(props.comment?.uservote ?? null);
 const localcounts = ref({
     up: props.comment?.upvote ?? 0,
     down: props.comment?.downvote ?? 0,
 });
-
+const updated = ref(props.comment.was_updated);
 async function voting(vote) {
     const pastvote = localvote.value;
     const pastcount = { ...localcounts.value };
@@ -77,6 +79,14 @@ const ratio = computed(() => {
     return total == 0 ? "50%" : `${(up / total) * 100}%`;
 });
 
+
+function showuser() {
+    router.push({
+        name: "thisuser",
+        params: { handle: props.comment.handle },
+    });
+}
+
 const { errors } = storeToRefs(useVoteStore());
 const { votesubmit } = useVoteStore();
 
@@ -103,5 +113,8 @@ onMounted(() => (errors.value = {}));
     border-radius: 3px 3px 0 0;
 
     height: v-bind("ratio");
+}
+#authorname{
+    display: flex;
 }
 </style>

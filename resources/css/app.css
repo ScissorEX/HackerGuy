@@ -23,3 +23,8 @@ body::-webkit-scrollbar {
     cursor: pointer;
     border: none;
 }
+.buttonb{
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}

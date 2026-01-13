@@ -6,15 +6,14 @@
         <div v-if="error" class="error">{{ error }}</div>
         <div id="body" v-if="post">
             <div id="categorybanner">
-                
                 <h4>{{ post.category }}</h4>
             </div>
             <div @click="router.back" id="arrowtogoback1step" class="button">
-                    <img
-                        src="../components/images/icons/arrow-left.svg"
-                        width="50px"
-                    />
-                </div>
+                <img
+                    src="../components/images/icons/arrow-left.svg"
+                    width="50px"
+                />
+            </div>
             <div id="postheader">
                 <h2>{{ post.title }}</h2>
                 <div id="subheader">
@@ -64,7 +63,11 @@
             <div id="contentcontainer">
                 <p>{{ post.content }}</p>
 
-                <h3>by {{ post.author }}</h3>
+                <div id="authorname">
+                    <h3 @click="showuser" class="buttonb">
+                        by {{ post.author }}
+                    </h3>
+                </div>
 
                 <div id="votingcontainer">
                     <p>{{ localcounts.up }}</p>
@@ -217,6 +220,13 @@ function openpostwindow() {
     patchtype.value = "Update post";
 }
 
+function showuser() {
+    router.push({
+        name: "thisuser",
+        params: { handle: post.value.handle },
+    });
+}
+
 const { errors } = storeToRefs(useVoteStore());
 const { votesubmit } = useVoteStore();
 
@@ -327,7 +337,7 @@ p {
     align-items: center;
     justify-content: space-evenly;
 }
-#arrowtogoback1step{
+#arrowtogoback1step {
     position: relative;
     display: flex;
     align-items: center;
@@ -335,5 +345,8 @@ p {
     overflow: hidden;
     height: 40px;
     width: 40px;
+}
+#authorname {
+    display: flex;
 }
 </style>

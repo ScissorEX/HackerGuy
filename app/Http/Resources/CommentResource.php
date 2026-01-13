@@ -13,7 +13,7 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'author' => $this->author->name,
-            'author_id' => $this->author->id,
+            'handle' => $this->author->handle,
             'upvote' => $this->upvote,
             'downvote' => $this->downvote,
             'uservote' => $this->uservote,

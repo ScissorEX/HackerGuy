@@ -35,9 +35,9 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        $post->load('author:id,name', 'category:id,name', 'tags:id,name');
+        $post->load('author:id,name,handle', 'category:id,name', 'tags:id,name');
 
-        $post->load(['comments' => fn ($q) => $q->with(['author:id,name'])->withcount([
+        $post->load(['comments' => fn ($q) => $q->with(['author:id,name,handle'])->withcount([
             'votes as upvote' => fn ($q) => $q->where('vote', 1),
             'votes as downvote' => fn ($q) => $q->where('vote', -1),
         ])]);
