@@ -2,29 +2,37 @@
     <div id="comment">
         <p>{{ comment.content }}</p>
         <div id="authorname">
-            <p @click="showuser" class="buttonb">{{ comment.author }}</p>
+            <p @click="showuser" class="buttonb" style="font-weight: bold">
+                {{ comment.author }}
+            </p>
         </div>
         <p>{{ comment.created_at }}</p>
         <p v-if="updated">updated</p>
-        <div>
-            <a @click="voting(1)">
-                <img :src="thumbup" />
+        <div id="interactingcontainer">
+            <div id="votingcontainer">
                 <p>{{ localcounts.up }}</p>
-            </a>
-
-            <div id="voteratio">
-                <div id="voteratiobar"></div>
+                <a @click="voting(1)">
+                    <img :src="thumbup" />
+                </a>
+    
+                <div id="voteratio">
+                    <div id="voteratiobar"></div>
+                </div>
+    
+                <a @click="voting(-1)">
+                    <img :src="thumbdown" />
+                </a>
             </div>
-
-            <a @click="voting(-1)">
-                <img :src="thumbdown" />
-            </a>
-        </div>
-        <div id="authcontainer">
+            <div
+            id="authcontainer"
+            v-if="authStore.user && authStore.user.id === comment.author_id"
+        >
             <div class="buttonb" id="delete" @click="trydeletecomment">
                 delete
             </div>
         </div>
+        </div>
+        
     </div>
 </template>
 
@@ -39,15 +47,17 @@ const props = defineProps({
 import { useVoteStore } from "../js/Stores/VoteHandling.js";
 import { storeToRefs } from "pinia";
 import { ref, computed, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import thumbupon from "../components/images/icons/thumb-up-ON.svg";
 import thumbupoff from "../components/images/icons/thumb-up-OFF.svg";
 import thumbdownon from "../components/images/icons/thumb-down-ON.svg";
 import thumbdownoff from "../components/images/icons/thumb-down-OFF.svg";
 import { useCommentStore } from "../js/Stores/CommentHandling.js";
+import { useAuthStore } from "../js/Stores/AuthHandling.js";
 
 const router = useRouter();
-const route = useRoute();
+const authStore = useAuthStore();
+
 const commentStore = useCommentStore();
 const localvote = ref(props.comment?.uservote ?? null);
 const localcounts = ref({
@@ -124,12 +134,12 @@ onMounted(() => (errors.value = {}));
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    margin: auto 6px;
 }
 
 #voteratiobar {
     background-color: rgb(204, 51, 31);
     border-radius: 3px 3px 0 0;
-
     height: v-bind("ratio");
 }
 #authorname {
@@ -151,5 +161,14 @@ onMounted(() => (errors.value = {}));
 }
 #authcontainer {
     display: flex;
+}
+#votingcontainer {
+    display: flex;
+    align-items: flex-end;
+}
+#interactingcontainer{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
 }
 </style>
