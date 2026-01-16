@@ -31,7 +31,7 @@ export const useCommentStore = defineStore("commentStore", {
         },
         async commentdelete(id) {
             const token = localStorage.getItem("token");
-            
+
             const res = await fetch(`/api/comments/${id}`, {
                 method: "delete",
                 headers: {

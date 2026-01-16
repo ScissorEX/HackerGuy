@@ -1,12 +1,22 @@
 <template>
     <div id="comment">
-        <p>{{ comment.content }}</p>
+        <div>
+            <p v-if="!isediting">{{ thiscomment.content }}</p>
+            <div v-if="isediting">
+                <form @submit.prevent="tryupdatecomment">
+                    <input v-model="edits.content" />
+                    <button type="submit">update</button>
+                </form>
+                <button @click="isediting = false">cancel</button>
+            </div>
+        </div>
+
         <div id="authorname">
             <p @click="showuser" class="buttonb" style="font-weight: bold">
                 {{ comment.author }}
             </p>
         </div>
-        <p>{{ comment.created_at }}</p>
+        <p>{{ comment.created_since }}</p>
         <p v-if="updated">updated</p>
         <div id="interactingcontainer">
             <div id="votingcontainer">
@@ -14,25 +24,31 @@
                 <a @click="voting(1)">
                     <img :src="thumbup" />
                 </a>
-    
+
                 <div id="voteratio">
                     <div id="voteratiobar"></div>
                 </div>
-    
+
                 <a @click="voting(-1)">
                     <img :src="thumbdown" />
                 </a>
             </div>
             <div
-            id="authcontainer"
-            v-if="authStore.user && authStore.user.id === comment.author_id"
-        >
-            <div class="buttonb" id="delete" @click="trydeletecomment">
-                delete
+                id="authcontainer"
+                v-if="
+                    authStore.user &&
+                    authStore.user.id === comment.author_id &&
+                    isediting == false
+                "
+            >
+                <div class="buttonb" id="update" @click="isediting = true">
+                    update
+                </div>
+                <div class="buttonb" id="delete" @click="trydeletecomment">
+                    delete
+                </div>
             </div>
         </div>
-        </div>
-        
     </div>
 </template>
 
@@ -43,10 +59,11 @@ const props = defineProps({
         required: true,
     },
 });
+const thiscomment = ref(props.comment);
 
 import { useVoteStore } from "../js/Stores/VoteHandling.js";
 import { storeToRefs } from "pinia";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import thumbupon from "../components/images/icons/thumb-up-ON.svg";
 import thumbupoff from "../components/images/icons/thumb-up-OFF.svg";
@@ -114,6 +131,20 @@ async function trydeletecomment() {
         console.log(err.toString());
     }
 }
+const isediting = ref(false);
+const newcontent = ref(props.comment.content);
+const edits = reactive({ content: newcontent.value });
+
+async function tryupdatecomment() {
+    try {
+        const data = await commentStore.commentupdate(props.comment.id, edits);
+        thiscomment.value = data;
+        updated.value = true;
+        isediting.value = false;
+    } catch (err) {
+        console.log(err.toString());
+    }
+}
 
 const { errors } = storeToRefs(useVoteStore());
 const { votesubmit } = useVoteStore();
@@ -166,7 +197,7 @@ onMounted(() => (errors.value = {}));
     display: flex;
     align-items: flex-end;
 }
-#interactingcontainer{
+#interactingcontainer {
     display: flex;
     justify-content: space-between;
     padding: 0 20px;
