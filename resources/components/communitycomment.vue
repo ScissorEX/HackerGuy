@@ -1,7 +1,9 @@
 <template>
     <div id="comment">
         <p>{{ comment.content }}</p>
-        <div id="authorname"><p @click="showuser" class="buttonb">{{ comment.author }}</p></div>
+        <div id="authorname">
+            <p @click="showuser" class="buttonb">{{ comment.author }}</p>
+        </div>
         <p>{{ comment.created_at }}</p>
         <p v-if="updated">updated</p>
         <div>
@@ -18,6 +20,11 @@
                 <img :src="thumbdown" />
             </a>
         </div>
+        <div id="authcontainer">
+            <div class="buttonb" id="delete" @click="trydeletecomment">
+                delete
+            </div>
+        </div>
     </div>
 </template>
 
@@ -32,13 +39,16 @@ const props = defineProps({
 import { useVoteStore } from "../js/Stores/VoteHandling.js";
 import { storeToRefs } from "pinia";
 import { ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import thumbupon from "../components/images/icons/thumb-up-ON.svg";
 import thumbupoff from "../components/images/icons/thumb-up-OFF.svg";
 import thumbdownon from "../components/images/icons/thumb-down-ON.svg";
 import thumbdownoff from "../components/images/icons/thumb-down-OFF.svg";
+import { useCommentStore } from "../js/Stores/CommentHandling.js";
 
 const router = useRouter();
+const route = useRoute();
+const commentStore = useCommentStore();
 const localvote = ref(props.comment?.uservote ?? null);
 const localcounts = ref({
     up: props.comment?.upvote ?? 0,
@@ -79,12 +89,20 @@ const ratio = computed(() => {
     return total == 0 ? "50%" : `${(up / total) * 100}%`;
 });
 
-
 function showuser() {
     router.push({
         name: "thisuser",
         params: { handle: props.comment.handle },
     });
+}
+
+async function trydeletecomment() {
+    try {
+        await commentStore.commentdelete(props.comment.id);
+        router.back();
+    } catch (err) {
+        console.log(err.toString());
+    }
 }
 
 const { errors } = storeToRefs(useVoteStore());
@@ -114,7 +132,24 @@ onMounted(() => (errors.value = {}));
 
     height: v-bind("ratio");
 }
-#authorname{
+#authorname {
+    display: flex;
+}
+#delete {
+    background-color: rgb(240, 91, 91);
+    color: black;
+    border-radius: 8px;
+    padding: 3px 10px;
+    align-content: center;
+}
+#update {
+    background-color: rgb(90, 179, 116);
+    color: black;
+    border-radius: 8px;
+    padding: 3px 10px;
+    align-content: center;
+}
+#authcontainer {
     display: flex;
 }
 </style>

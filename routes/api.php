@@ -20,8 +20,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('posts/{post}', [PostController::class, 'update']);
     Route::delete('posts/{post}', [PostController::class, 'destroy']);
     Route::post('posts/{post}/comments', [CommentController::class, 'store']);
-    Route::put('posts/{post}/comments/{id}', [CommentController::class, 'update']);
-    Route::delete('posts/{post}/comments/{id}', [CommentController::class, 'destroy']);
+    Route::put('comments/{comment}', [CommentController::class, 'update']);
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
     Route::post('posts/{post}/vote', [VoteController::class, 'votePost']);
     Route::post('comments/{comment}/vote', [VoteController::class, 'voteComment']);
     Route::post('logout', [AuthController::class, 'logout']);
@@ -29,7 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
-Route::get('posts/{post}/comments', [CommentController::class, 'index']);
 Route::get('category', [CategoryController::class, 'index']);
 Route::get('category/{category}', [CategoryController::class, 'show']);
 Route::get('search', [PostController::class, 'search']);
