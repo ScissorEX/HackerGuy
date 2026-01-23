@@ -89,6 +89,8 @@
                     <input
                         placeholder="comment"
                         v-model="commentdata.content"
+                        class="forminput"
+                        style="width: 300px; border: 1px black solid;"
                     />
                     <button>submit</button>
                 </form>

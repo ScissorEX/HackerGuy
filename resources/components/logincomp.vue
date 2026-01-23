@@ -7,7 +7,7 @@
                     type="text"
                     name="email"
                     v-model="formdata.email"
-                    class="textin"
+                    class="forminput"
                 />
             </div>
 
@@ -17,7 +17,7 @@
                     type="password"
                     name="password"
                     v-model="formdata.password"
-                    class="textin"
+                    class="forminput"
                 />
             </div>
 

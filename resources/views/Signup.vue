@@ -60,7 +60,7 @@ onUnmounted(() => {
     display: flex;
     justify-self: center;
 }
-#formdiv {
+:deep(#formdiv) {
     height: auto;
     display: flex;
     flex-direction: column;
@@ -73,14 +73,10 @@ onUnmounted(() => {
     flex-direction: column;
     align-items: center;
     width: 80%;
-    max-width: 300px;
+    min-width: 300px;
     gap: 8px;
 }
-:deep(.textin) {
-    width: 100%;
-    padding: 5px;
-    font-size: 1rem;
-}
+
 :deep(#buttonsub) {
     width: 80px;
     height: 30px;

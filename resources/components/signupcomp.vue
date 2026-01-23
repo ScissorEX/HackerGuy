@@ -9,7 +9,7 @@
                     id="name"
                     autocomplete="no"
                     v-model="formdata.name"
-                    class="textin"
+                    class="forminput"
                 />
             </div>
 
@@ -21,7 +21,7 @@
                     id="email"
                     autocomplete="no"
                     v-model="formdata.email"
-                    class="textin"
+                    class="forminput"
                 />
             </div>
 
@@ -32,7 +32,7 @@
                     name="password"
                     id="password"
                     v-model="formdata.password"
-                    class="textin"
+                    class="forminput"
                 />
             </div>
 
@@ -43,7 +43,7 @@
                     name="password_confirmation"
                     id="passwordconf"
                     v-model="formdata.password_confirmation"
-                    class="textin"
+                    class="forminput"
                 />
             </div>
 
