@@ -5,9 +5,9 @@ namespace App\Jobs;
 use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 
 class EmbedPost implements ShouldQueue
@@ -27,7 +27,7 @@ class EmbedPost implements ShouldQueue
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer '.env('COHERE_API_KEY'),
+                'Authorization' => 'Bearer '.config('services.cohere.api_key'),
                 'Content-Type' => 'application/json',
             ])->post('https://api.cohere.ai/v2/embed', [
                 'model' => 'embed-v4.0',

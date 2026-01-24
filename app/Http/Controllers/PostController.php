@@ -147,7 +147,7 @@ class PostController extends Controller
         $search = $request->query('search');
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer '.env('COHERE_API_KEY'),
+                'Authorization' => 'Bearer '.config('services.cohere.api_key'),
                 'Content-Type' => 'application/json',
             ])->post('https://api.cohere.ai/v2/embed', [
                 'model' => 'embed-v4.0',
