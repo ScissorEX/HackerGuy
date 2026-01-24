@@ -1,6 +1,6 @@
 <template>
     <div id="content">
-        <div v-for="post in searchStore.searchres" :key="post.id">
+        <div id="deck" v-for="post in searchStore.searchres" :key="post.id">
             <div id="separator"></div>
             <a @click="showpost(post)" id="thecard">
                 <h3>{{ post.title }}</h3>
@@ -35,6 +35,9 @@ function showpost(post) {
     gap: 8px;
     overflow: visible;
 }
+#deck {
+    width: 100%;
+}
 
 #thecard {
     background-color: #fff;
@@ -65,10 +68,9 @@ function showpost(post) {
     color: #072c09;
 }
 #createpostcontainer {
-    width: 300px;
-    height: 300px;
     position: absolute;
-    background-color: aquamarine;
+    width: 100%;
+    height: 100%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

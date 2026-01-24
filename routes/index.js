@@ -35,7 +35,7 @@ const routes = [
         path: "/signup",
         name: "signup",
         component: () => import("../resources/views/Signup.vue"),
-        meta: { guest: true }
+        meta: { guest: true },
     },
     {
         path: "/community",
@@ -77,7 +77,10 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     const authStore = useAuthStore();
-    await authStore.getUser();
+
+    if (!authStore.user && localStorage.getItem("token")) {
+        await authStore.getUser();
+    }
 
     if (authStore.user && to.meta.guest) {
         return { name: "home" };

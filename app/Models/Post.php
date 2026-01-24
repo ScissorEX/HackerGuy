@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Jobs\EmbedPost;
 
 class Post extends Model
 {
@@ -21,7 +22,7 @@ class Post extends Model
             $post->slug = Str::slug($post->title);
         });
     }
-
+    
     // relations
     public function author()
     {

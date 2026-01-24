@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
+use App\Jobs\EmbedPost;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -93,6 +96,7 @@ class PostController extends Controller
 
             $post->tags()->sync($ids);
         }
+        EmbedPost::dispatch($post->id);
 
         return response()->json($post);
     }
@@ -123,6 +127,7 @@ class PostController extends Controller
 
             $post->tags()->sync($tagIds);
         }
+        EmbedPost::dispatch($post->id);
 
         return response()->json($post);
     }
@@ -132,6 +137,7 @@ class PostController extends Controller
         $this->authorize('delete', $post);
 
         $post->delete();
+        DB::connection('pgsql')->delete('DELETE FROM post_embeddings WHERE post_id = ?', [$post->id]);
 
         return response()->json('post deleted');
     }
@@ -139,13 +145,28 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $search = $request->query('search');
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer '.env('COHERE_API_KEY'),
+                'Content-Type' => 'application/json',
+            ])->post('https://api.cohere.ai/v2/embed', [
+                'model' => 'embed-v4.0',
+                'texts' => [$search],
+                'input_type' => 'search_query',
+                'embedding_types' => ['float'],
+            ]);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+        $embedding = $response->json('embeddings.float.0');
+        $vector = '['.implode(',', $embedding).']';
+        $postidclass = DB::connection('pgsql')->select('SELECT post_id FROM post_embeddings ORDER BY embedding <=> ? LIMIT 10', [$vector]);
 
-        $posts = Post::where('title', 'LIKE', "%{$search}%")
-            ->with('author')
-            ->latest()
-            ->limit(20)
-            ->get();
+        $ids = collect($postidclass)->pluck('post_id')->toArray();
 
-        return response()->json($posts);
+        $posts = Post::whereIn('id', $ids)->with('author')->get()->keyBy('id');
+        $orderedPosts = collect($ids)->map(fn ($id) => $posts[$id])->filter();
+
+        return response()->json($orderedPosts);
     }
 }

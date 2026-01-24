@@ -24,6 +24,7 @@ export const useSearchStore = defineStore("searchStore", {
             const res = await fetch(`/api/search?search=${search}`);
             const data = await res.json();
             this.searchres = data
+            
             return data;
         },
     },
