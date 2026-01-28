@@ -23,7 +23,23 @@ class EmbedPost implements ShouldQueue
     public function handle()
     {
         $post = Post::findOrFail($this->postId);
-        $search = $post->title;
+        $content = $post->content;
+        $maxwords = 250;
+        $sentences = preg_split('/[.!?]+/', $content, -1, PREG_SPLIT_NO_EMPTY);
+        $currentchunk = '';
+        $chunksarray = [];
+        array_push($chunksarray, $post->title);
+        foreach ($sentences as $sentence) {
+            if ((str_word_count($currentchunk) + str_word_count($sentence)) > $maxwords) {
+                array_push($chunksarray, $currentchunk);
+                $currentchunk = trim($sentence).'. ';
+            } else {
+                $currentchunk .= trim($sentence).'. ';
+            }
+        }
+        if (! empty($currentchunk)) {
+            $chunksarray[] = $currentchunk;
+        }
 
         try {
             $response = Http::withHeaders([
@@ -31,7 +47,7 @@ class EmbedPost implements ShouldQueue
                 'Content-Type' => 'application/json',
             ])->post('https://api.cohere.ai/v2/embed', [
                 'model' => 'embed-v4.0',
-                'texts' => [$search],
+                'texts' => $chunksarray,
                 'input_type' => 'search_document',
                 'embedding_types' => ['float'],
             ]);
@@ -40,9 +56,13 @@ class EmbedPost implements ShouldQueue
             Log::error("Failed to embed post {$this->postId}: ".$e->getMessage());
             throw $e; // This triggers retry
         }
-        $embedding = $response->json('embeddings.float.0');
-        $vector = '['.implode(',', $embedding).']';
+        $embeddings = $response->json('embeddings.float');
+        foreach ($embeddings as $index => $embedding) {
+            $vector = '['.implode(',', $embedding).']';
+            $chunktext = $chunksarray[$index];
 
-        DB::connection('pgsql')->insert('INSERT INTO post_embeddings (post_id, embedding) VALUES (?, ?)', [$this->postId, $vector]);
+            DB::connection('pgsql')->insert('INSERT INTO post_embeddings (post_id, chunk_index, chunk_text, embedding) VALUES (?, ?, ?, ?)', [$this->postId, $index, $chunktext, $vector]);
+        }
+
     }
 }

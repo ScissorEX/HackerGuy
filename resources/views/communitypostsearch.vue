@@ -4,7 +4,7 @@
             <div id="separator"></div>
             <a @click="showpost(post)" id="thecard">
                 <h3>{{ post.title }}</h3>
-                <p>{{ post.content }}</p>
+                <p>{{ post.matching_chunk }}</p>
                 <span>By {{ post.author.name }}</span>
             </a>
         </div>

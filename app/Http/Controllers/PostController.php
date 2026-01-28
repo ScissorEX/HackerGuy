@@ -160,13 +160,21 @@ class PostController extends Controller
         }
         $embedding = $response->json('embeddings.float.0');
         $vector = '['.implode(',', $embedding).']';
-        $postidclass = DB::connection('pgsql')->select('SELECT post_id FROM post_embeddings ORDER BY embedding <=> ? LIMIT 10', [$vector]);
+        $closestposts = DB::connection('pgsql')->select('SELECT DISTINCT ON (post_id) post_id, chunk_text, embedding <=> ? AS distance 
+                                                                    FROM post_embeddings ORDER BY post_id, distance LIMIT 50', [$vector]);
 
-        $ids = collect($postidclass)->pluck('post_id')->toArray();
-
+        $ids = collect($closestposts)->pluck('post_id')->toArray();
         $posts = Post::whereIn('id', $ids)->with('author')->get()->keyBy('id');
-        $orderedPosts = collect($ids)->map(fn ($id) => $posts[$id])->filter();
 
-        return response()->json($orderedPosts);
+        $orderedresults = collect($closestposts)->map(function ($result) use ($posts) {
+            $post = $posts[$result->post_id];
+            if ($post) {
+                $post->matching_chunk = $result->chunk_text;
+
+                return $post;
+            }
+        })->filter();
+
+        return response()->json($orderedresults);
     }
 }
